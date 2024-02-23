@@ -1,0 +1,659 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		1931B1792B86E16C00A51EF6 /* ArchivadorApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1931B1782B86E16C00A51EF6 /* ArchivadorApp.swift */; };
+		1931B17B2B86E16C00A51EF6 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1931B17A2B86E16C00A51EF6 /* ContentView.swift */; };
+		1931B17D2B86E16D00A51EF6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1931B17C2B86E16D00A51EF6 /* Assets.xcassets */; };
+		1931B1802B86E16D00A51EF6 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1931B17F2B86E16D00A51EF6 /* Preview Assets.xcassets */; };
+		1931B1822B86E16D00A51EF6 /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1931B1812B86E16D00A51EF6 /* Persistence.swift */; };
+		1931B1852B86E16D00A51EF6 /* Archivador.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 1931B1832B86E16D00A51EF6 /* Archivador.xcdatamodeld */; };
+		1931B1912B86E46B00A51EF6 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1931B1902B86E46B00A51EF6 /* Utils.swift */; };
+		1931B1992B86E4A000A51EF6 /* ArchivadorWatchApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1931B1982B86E4A000A51EF6 /* ArchivadorWatchApp.swift */; };
+		1931B19B2B86E4A000A51EF6 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1931B19A2B86E4A000A51EF6 /* ContentView.swift */; };
+		1931B19D2B86E4A200A51EF6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1931B19C2B86E4A200A51EF6 /* Assets.xcassets */; };
+		1931B1A02B86E4A200A51EF6 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1931B19F2B86E4A200A51EF6 /* Preview Assets.xcassets */; };
+		1931B1A32B86E4A200A51EF6 /* ArchivadorWatch Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 1931B1962B86E4A000A51EF6 /* ArchivadorWatch Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		1931B1A92B86E4FA00A51EF6 /* Home.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1931B1A82B86E4FA00A51EF6 /* Home.swift */; };
+		1931B1AC2B87D36100A51EF6 /* AESModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1931B1AB2B87D36100A51EF6 /* AESModel.swift */; };
+		1931B1AF2B87D42B00A51EF6 /* CryptoSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 1931B1AE2B87D42B00A51EF6 /* CryptoSwift */; };
+		1931B1B12B881CC300A51EF6 /* CRUDModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1931B1B02B881CC300A51EF6 /* CRUDModel.swift */; };
+		1931B1B42B8855EF00A51EF6 /* AddCategView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1931B1B32B8855EF00A51EF6 /* AddCategView.swift */; };
+		1931B1B62B885B7D00A51EF6 /* AddEntradaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1931B1B52B885B7D00A51EF6 /* AddEntradaView.swift */; };
+		1931B1B82B88BBC300A51EF6 /* ListEntradasView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1931B1B72B88BBC300A51EF6 /* ListEntradasView.swift */; };
+		1931B1BA2B88D9DC00A51EF6 /* ListCategView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1931B1B92B88D9DC00A51EF6 /* ListCategView.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		1931B1A12B86E4A200A51EF6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1931B16D2B86E16C00A51EF6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1931B1952B86E4A000A51EF6;
+			remoteInfo = "ArchivadorWatch Watch App";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		1931B1A72B86E4A200A51EF6 /* Embed Watch Content */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
+			dstSubfolderSpec = 16;
+			files = (
+				1931B1A32B86E4A200A51EF6 /* ArchivadorWatch Watch App.app in Embed Watch Content */,
+			);
+			name = "Embed Watch Content";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		1931B1752B86E16C00A51EF6 /* Archivador.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Archivador.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1931B1782B86E16C00A51EF6 /* ArchivadorApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchivadorApp.swift; sourceTree = "<group>"; };
+		1931B17A2B86E16C00A51EF6 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		1931B17C2B86E16D00A51EF6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		1931B17F2B86E16D00A51EF6 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		1931B1812B86E16D00A51EF6 /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
+		1931B1842B86E16D00A51EF6 /* Archivador.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Archivador.xcdatamodel; sourceTree = "<group>"; };
+		1931B1862B86E16D00A51EF6 /* Archivador.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Archivador.entitlements; sourceTree = "<group>"; };
+		1931B1872B86E16D00A51EF6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1931B1902B86E46B00A51EF6 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
+		1931B1962B86E4A000A51EF6 /* ArchivadorWatch Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ArchivadorWatch Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		1931B1982B86E4A000A51EF6 /* ArchivadorWatchApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchivadorWatchApp.swift; sourceTree = "<group>"; };
+		1931B19A2B86E4A000A51EF6 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		1931B19C2B86E4A200A51EF6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		1931B19F2B86E4A200A51EF6 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		1931B1A82B86E4FA00A51EF6 /* Home.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Home.swift; sourceTree = "<group>"; };
+		1931B1AB2B87D36100A51EF6 /* AESModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AESModel.swift; sourceTree = "<group>"; };
+		1931B1B02B881CC300A51EF6 /* CRUDModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CRUDModel.swift; sourceTree = "<group>"; };
+		1931B1B32B8855EF00A51EF6 /* AddCategView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCategView.swift; sourceTree = "<group>"; };
+		1931B1B52B885B7D00A51EF6 /* AddEntradaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddEntradaView.swift; sourceTree = "<group>"; };
+		1931B1B72B88BBC300A51EF6 /* ListEntradasView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListEntradasView.swift; sourceTree = "<group>"; };
+		1931B1B92B88D9DC00A51EF6 /* ListCategView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCategView.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		1931B1722B86E16C00A51EF6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1931B1AF2B87D42B00A51EF6 /* CryptoSwift in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1931B1932B86E4A000A51EF6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		1931B16C2B86E16C00A51EF6 = {
+			isa = PBXGroup;
+			children = (
+				1931B1772B86E16C00A51EF6 /* Archivador */,
+				1931B1972B86E4A000A51EF6 /* ArchivadorWatch Watch App */,
+				1931B1762B86E16C00A51EF6 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		1931B1762B86E16C00A51EF6 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				1931B1752B86E16C00A51EF6 /* Archivador.app */,
+				1931B1962B86E4A000A51EF6 /* ArchivadorWatch Watch App.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		1931B1772B86E16C00A51EF6 /* Archivador */ = {
+			isa = PBXGroup;
+			children = (
+				1931B18D2B86E40600A51EF6 /* Model */,
+				1931B1B22B8855DA00A51EF6 /* Views */,
+				1931B1782B86E16C00A51EF6 /* ArchivadorApp.swift */,
+				1931B17A2B86E16C00A51EF6 /* ContentView.swift */,
+				1931B1A82B86E4FA00A51EF6 /* Home.swift */,
+				1931B17C2B86E16D00A51EF6 /* Assets.xcassets */,
+				1931B1862B86E16D00A51EF6 /* Archivador.entitlements */,
+				1931B1872B86E16D00A51EF6 /* Info.plist */,
+				1931B1832B86E16D00A51EF6 /* Archivador.xcdatamodeld */,
+				1931B17E2B86E16D00A51EF6 /* Preview Content */,
+			);
+			path = Archivador;
+			sourceTree = "<group>";
+		};
+		1931B17E2B86E16D00A51EF6 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				1931B17F2B86E16D00A51EF6 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		1931B18D2B86E40600A51EF6 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				1931B18E2B86E41100A51EF6 /* CoreData */,
+				1931B1902B86E46B00A51EF6 /* Utils.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		1931B18E2B86E41100A51EF6 /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
+				1931B1812B86E16D00A51EF6 /* Persistence.swift */,
+				1931B1AB2B87D36100A51EF6 /* AESModel.swift */,
+				1931B1B02B881CC300A51EF6 /* CRUDModel.swift */,
+			);
+			path = CoreData;
+			sourceTree = "<group>";
+		};
+		1931B18F2B86E44900A51EF6 /* icloudKit */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = icloudKit;
+			sourceTree = "<group>";
+		};
+		1931B1972B86E4A000A51EF6 /* ArchivadorWatch Watch App */ = {
+			isa = PBXGroup;
+			children = (
+				1931B1AA2B86E59B00A51EF6 /* Model */,
+				1931B1982B86E4A000A51EF6 /* ArchivadorWatchApp.swift */,
+				1931B19A2B86E4A000A51EF6 /* ContentView.swift */,
+				1931B19C2B86E4A200A51EF6 /* Assets.xcassets */,
+				1931B19E2B86E4A200A51EF6 /* Preview Content */,
+			);
+			path = "ArchivadorWatch Watch App";
+			sourceTree = "<group>";
+		};
+		1931B19E2B86E4A200A51EF6 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				1931B19F2B86E4A200A51EF6 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		1931B1AA2B86E59B00A51EF6 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				1931B18F2B86E44900A51EF6 /* icloudKit */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		1931B1B22B8855DA00A51EF6 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				1931B1B32B8855EF00A51EF6 /* AddCategView.swift */,
+				1931B1B52B885B7D00A51EF6 /* AddEntradaView.swift */,
+				1931B1B72B88BBC300A51EF6 /* ListEntradasView.swift */,
+				1931B1B92B88D9DC00A51EF6 /* ListCategView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		1931B1742B86E16C00A51EF6 /* Archivador */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1931B18A2B86E16D00A51EF6 /* Build configuration list for PBXNativeTarget "Archivador" */;
+			buildPhases = (
+				1931B1712B86E16C00A51EF6 /* Sources */,
+				1931B1722B86E16C00A51EF6 /* Frameworks */,
+				1931B1732B86E16C00A51EF6 /* Resources */,
+				1931B1A72B86E4A200A51EF6 /* Embed Watch Content */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				1931B1A22B86E4A200A51EF6 /* PBXTargetDependency */,
+			);
+			name = Archivador;
+			packageProductDependencies = (
+				1931B1AE2B87D42B00A51EF6 /* CryptoSwift */,
+			);
+			productName = Archivador;
+			productReference = 1931B1752B86E16C00A51EF6 /* Archivador.app */;
+			productType = "com.apple.product-type.application";
+		};
+		1931B1952B86E4A000A51EF6 /* ArchivadorWatch Watch App */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1931B1A42B86E4A200A51EF6 /* Build configuration list for PBXNativeTarget "ArchivadorWatch Watch App" */;
+			buildPhases = (
+				1931B1922B86E4A000A51EF6 /* Sources */,
+				1931B1932B86E4A000A51EF6 /* Frameworks */,
+				1931B1942B86E4A000A51EF6 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "ArchivadorWatch Watch App";
+			productName = "ArchivadorWatch Watch App";
+			productReference = 1931B1962B86E4A000A51EF6 /* ArchivadorWatch Watch App.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		1931B16D2B86E16C00A51EF6 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1520;
+				LastUpgradeCheck = 1520;
+				TargetAttributes = {
+					1931B1742B86E16C00A51EF6 = {
+						CreatedOnToolsVersion = 15.2;
+					};
+					1931B1952B86E4A000A51EF6 = {
+						CreatedOnToolsVersion = 15.2;
+					};
+				};
+			};
+			buildConfigurationList = 1931B1702B86E16C00A51EF6 /* Build configuration list for PBXProject "Archivador" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 1931B16C2B86E16C00A51EF6;
+			packageReferences = (
+				1931B1AD2B87D42B00A51EF6 /* XCRemoteSwiftPackageReference "CryptoSwift" */,
+			);
+			productRefGroup = 1931B1762B86E16C00A51EF6 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				1931B1742B86E16C00A51EF6 /* Archivador */,
+				1931B1952B86E4A000A51EF6 /* ArchivadorWatch Watch App */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		1931B1732B86E16C00A51EF6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1931B1802B86E16D00A51EF6 /* Preview Assets.xcassets in Resources */,
+				1931B17D2B86E16D00A51EF6 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1931B1942B86E4A000A51EF6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1931B1A02B86E4A200A51EF6 /* Preview Assets.xcassets in Resources */,
+				1931B19D2B86E4A200A51EF6 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		1931B1712B86E16C00A51EF6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1931B1B62B885B7D00A51EF6 /* AddEntradaView.swift in Sources */,
+				1931B1912B86E46B00A51EF6 /* Utils.swift in Sources */,
+				1931B1B12B881CC300A51EF6 /* CRUDModel.swift in Sources */,
+				1931B1822B86E16D00A51EF6 /* Persistence.swift in Sources */,
+				1931B1B82B88BBC300A51EF6 /* ListEntradasView.swift in Sources */,
+				1931B1BA2B88D9DC00A51EF6 /* ListCategView.swift in Sources */,
+				1931B17B2B86E16C00A51EF6 /* ContentView.swift in Sources */,
+				1931B1852B86E16D00A51EF6 /* Archivador.xcdatamodeld in Sources */,
+				1931B1B42B8855EF00A51EF6 /* AddCategView.swift in Sources */,
+				1931B1A92B86E4FA00A51EF6 /* Home.swift in Sources */,
+				1931B1792B86E16C00A51EF6 /* ArchivadorApp.swift in Sources */,
+				1931B1AC2B87D36100A51EF6 /* AESModel.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1931B1922B86E4A000A51EF6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1931B19B2B86E4A000A51EF6 /* ContentView.swift in Sources */,
+				1931B1992B86E4A000A51EF6 /* ArchivadorWatchApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		1931B1A22B86E4A200A51EF6 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1931B1952B86E4A000A51EF6 /* ArchivadorWatch Watch App */;
+			targetProxy = 1931B1A12B86E4A200A51EF6 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		1931B1882B86E16D00A51EF6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		1931B1892B86E16D00A51EF6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		1931B18B2B86E16D00A51EF6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Archivador/Archivador.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"Archivador/Preview Content\"";
+				DEVELOPMENT_TEAM = NDP3AP6896;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Archivador/Info.plist;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ypg.Archivador;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		1931B18C2B86E16D00A51EF6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Archivador/Archivador.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"Archivador/Preview Content\"";
+				DEVELOPMENT_TEAM = NDP3AP6896;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Archivador/Info.plist;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ypg.Archivador;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		1931B1A52B86E4A200A51EF6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"ArchivadorWatch Watch App/Preview Content\"";
+				DEVELOPMENT_TEAM = NDP3AP6896;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = ArchivadorWatch;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = com.ypg.Archivador;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ypg.Archivador.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 10.2;
+			};
+			name = Debug;
+		};
+		1931B1A62B86E4A200A51EF6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"ArchivadorWatch Watch App/Preview Content\"";
+				DEVELOPMENT_TEAM = NDP3AP6896;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = ArchivadorWatch;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = com.ypg.Archivador;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ypg.Archivador.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 10.2;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1931B1702B86E16C00A51EF6 /* Build configuration list for PBXProject "Archivador" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1931B1882B86E16D00A51EF6 /* Debug */,
+				1931B1892B86E16D00A51EF6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1931B18A2B86E16D00A51EF6 /* Build configuration list for PBXNativeTarget "Archivador" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1931B18B2B86E16D00A51EF6 /* Debug */,
+				1931B18C2B86E16D00A51EF6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1931B1A42B86E4A200A51EF6 /* Build configuration list for PBXNativeTarget "ArchivadorWatch Watch App" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1931B1A52B86E4A200A51EF6 /* Debug */,
+				1931B1A62B86E4A200A51EF6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		1931B1AD2B87D42B00A51EF6 /* XCRemoteSwiftPackageReference "CryptoSwift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/krzyzanowskim/CryptoSwift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.8.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		1931B1AE2B87D42B00A51EF6 /* CryptoSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1931B1AD2B87D42B00A51EF6 /* XCRemoteSwiftPackageReference "CryptoSwift" */;
+			productName = CryptoSwift;
+		};
+/* End XCSwiftPackageProductDependency section */
+
+/* Begin XCVersionGroup section */
+		1931B1832B86E16D00A51EF6 /* Archivador.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				1931B1842B86E16D00A51EF6 /* Archivador.xcdatamodel */,
+			);
+			currentVersion = 1931B1842B86E16D00A51EF6 /* Archivador.xcdatamodel */;
+			path = Archivador.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
+	};
+	rootObject = 1931B16D2B86E16C00A51EF6 /* Project object */;
+}
