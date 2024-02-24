@@ -17,20 +17,28 @@ struct AddEntradaView: View {
     @State var fav = false
     @State var colorText : Color = .primary
     @State var showSheetAddCateg = false
-    @State var showSheetListCateg = false
     
     var body: some View {
         NavigationStack {
             VStack{
                 Form{
-                    Section("Categoria de la Entrada"){
+                    Section("Categoría de la Entrada"){
                         VStack(alignment: .leading){
-                            Button{
-                                showSheetListCateg = true
-                            }label: {
-                                Text("Categoria...  \(AESModel().aesGCMDec(strEnc: selectedCateg?.categoria ?? ""))")
-                                    .foregroundColor(selectedCateg == nil ? .red : .primary)
+                            //Construir un menu para escoger las categorias
+                            if !listCateg.isEmpty {
+                                Menu("Seleccione una categoría...") {
+                                    ForEach(listCateg){ i in
+                                        Button(AESModel().aesGCMDec(strEnc: i.categoria ?? "")){
+                                            self.selectedCateg = i
+                                        }
+                                    }
+                                }
                             }
+                            Text("\( selectedCateg != nil ? AESModel().aesGCMDec(strEnc: self.selectedCateg?.categoria ?? ""): "⚠️")")
+                                .foregroundStyle(.orange).bold()
+                                
+                                
+                                
                         }
                     }
                     
@@ -43,7 +51,7 @@ struct AddEntradaView: View {
                                     if !textFieldTitulo.isEmpty {colorText = .primary}
                                 }
                             
-                            Text("Título que tendrá la categoria")
+                            Text("\(textFieldTitulo.isEmpty ? "⚠️" : "✅") Título que tendrá la categoría")
                                 .font(.footnote)
                                 .padding(.top, 5)
                                 .foregroundColor(textFieldTitulo.isEmpty ? .red : .primary)
@@ -53,12 +61,12 @@ struct AddEntradaView: View {
                     
                     Section("Texto de la entrada"){
                         VStack(alignment: .leading){
-                            TextField("Nuevo título", text: $textFieldEntrada, axis: .vertical)
+                            TextField("Contenido de la entrada", text: $textFieldEntrada, axis: .vertical)
                                 .onChange(of: textFieldEntrada) {
                                     if !textFieldEntrada.isEmpty {colorText = .primary}
                                 }
                             
-                            Text("Nombre de la categoria")
+                            Text("\(textFieldEntrada.isEmpty ? "⚠️" : "✅") Nombre de la categoría")
                                 .font(.footnote)
                                 .padding(.top, 5)
                                 .foregroundColor(textFieldEntrada.isEmpty ? .red : .primary)
@@ -70,7 +78,7 @@ struct AddEntradaView: View {
                     Section("Favorito"){
                         VStack(alignment: .leading){
                             Toggle("Favorito", isOn: $fav)
-                            Text("Marque la nueva categoria como favorito")
+                            Text("Marque la nueva categoría como favorito")
                                 .font(.footnote)
                                 .padding(.top, 5)
                         }
@@ -85,12 +93,12 @@ struct AddEntradaView: View {
                 VStack() {
                     Button("Guardar"){
                         if let categ = self.selectedCateg {
-                            
                             if textFieldTitulo.isEmpty {return}
                             if textFieldEntrada.isEmpty {return}
                             
-                            if let _ = CRUDModel().AddEntrada(title: textFieldTitulo, entrada: textFieldEntrada, categoria: categ){
-                                print("Todo OK")
+                            if CRUDModel().AddEntrada(title: textFieldTitulo, entrada: textFieldEntrada, categoria: categ) != nil{
+                                //OKOKOKOK
+                                
                             }else{
                                 print("algo ha salido mal")
                             }
@@ -103,58 +111,20 @@ struct AddEntradaView: View {
                 }
                 .padding(.bottom, 50)
             }
+            .background(.black)
+            .foregroundStyle(.white)
             .sheet(isPresented: $showSheetAddCateg, content: {
-                AddCategView()
+                AddCategView(listado: $listCateg)
             })
-            .sheet(isPresented: $showSheetListCateg, content: {
-                listadoCategorias(listCateg: $listCateg, selectedCateg: $selectedCateg)
-            })
+            
         }
     }
     
 }
 
 
-//Muestra el listado de categorias y permite seleccionar una
-struct listadoCategorias : View {
-    @Environment(\.dismiss) var dimiss
-    @Binding var listCateg : [Categorias]
-    @Binding var selectedCateg : Categorias?
-    @State private var showSheeAddCateg = false
-    var body: some View {
-        NavigationStack {
-            VStack{
 
-                List(listCateg, id:\.id){ item in
-                    
-                    Button(AESModel().aesGCMDec(strEnc: item.categoria ?? "")){
-                        selectedCateg = item
-                        dimiss()
-                    }
-                    
-                }
-            }
-            .toolbar{
-                Button{
-                    listCateg = CRUDModel().getListOfCateg()
-                }label: {
-                    Image(systemName: "arrow.circlepath")
-                }
-                
-                Button{
-                    self.showSheeAddCateg = true
-                }label: {
-                    Image(systemName: "plus")
-                }
-            }
-            .navigationTitle("Seleccionar una Categoria")
-            .navigationBarTitleDisplayMode(.inline)
-            .sheet(isPresented: $showSheeAddCateg, content: {
-                AddCategView()
-            })
-        }
-    }
-}
+
 
 
 

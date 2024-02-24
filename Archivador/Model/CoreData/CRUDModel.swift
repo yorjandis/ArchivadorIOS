@@ -18,7 +18,7 @@ struct CRUDModel {
     
     ///Adiciona una nueva categoria. Las categorias no pueden repetirse
     /// - Returns -  Devuelve la categoria recien creada, si falla devuelve nil
-    func addCategoria(categoria: String, isfav : Bool = false, nota: String = "")->Categorias?{
+    func addCategoria(categoria: String, isfav : Bool = false, nota: String = "", icono: String = "")->Categorias?{
         
         //Comprobando si existe una categoria igual en la BD CASE Insensitive
             let categEncript = AESModel().aesGCMEnc(str: categoria)//Encriptar el texto de la categoria
@@ -38,6 +38,7 @@ struct CRUDModel {
         row.categoria = categEncript
         row.isfav = isfav
         row.nota = nota
+        row.icono = icono
         
         do{
             try context.save()
@@ -49,7 +50,7 @@ struct CRUDModel {
     
     ///Adiciona una nueva entrada
     /// - Returns - Devuelve true si la operación ha sido exitosa
-    func AddEntrada(title : String, entrada : String, categoria : Categorias?, image : String = "", isfav : Bool = true)->Entrada?{
+    func AddEntrada(title : String, entrada : String, categoria : Categorias?, image : String = "", isfav : Bool = true, icono:String = "")->Entrada?{
         let row : Entrada = Entrada(context: context)
         
         //Una entrada debe pertenecer a una categoria
@@ -60,6 +61,7 @@ struct CRUDModel {
             row.entrada = AESModel().aesGCMEnc(str: entrada)
             row.image = AESModel().aesGCMEnc(str: image)
             row.isfav = isfav
+            row.icono = icono
             
             do{
                 try context.save()
@@ -73,7 +75,17 @@ struct CRUDModel {
     }
     
     
-    ///Elimina todas las categorias
+    ///Elimina una categoria
+    ///
+    func DeleteRecord(record : NSManagedObject)->Bool{
+        do{
+            context.delete(record)
+            try context.save()
+            return true
+        }catch{
+            return false
+        }
+    }
     
     
     ///Devuelve el listado de categorias

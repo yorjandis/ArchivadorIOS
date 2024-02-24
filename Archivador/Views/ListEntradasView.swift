@@ -171,7 +171,7 @@ struct ListEntradasView: View {
                 .navigationTitle("Seleccionar una Categoria")
                 .navigationBarTitleDisplayMode(.inline)
                 .sheet(isPresented: $showSheeAddCateg, content: {
-                    AddCategView()
+                    AddCategView(listado: $listCateg)
                 })
             }
         }

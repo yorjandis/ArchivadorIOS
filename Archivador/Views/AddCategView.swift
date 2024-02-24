@@ -6,8 +6,11 @@
 //
 
 import SwiftUI
+import CoreData
 
 struct AddCategView: View {
+    @Environment(\.dismiss) var dismiss
+    @Binding var listado : [Categorias]  //Listado que será actualizado una vez se adicione la categoria
     @State var textFieldCateg = ""
     @State var textFieldNota = ""
     @State var fav = false
@@ -20,7 +23,7 @@ struct AddCategView: View {
                         VStack(alignment: .leading){
                             TextField("Nueva Categoria", text: $textFieldCateg, axis: .vertical)
                             
-                            Text("Nombre de la categoria")
+                            Text("\(textFieldCateg.isEmpty ? "⚠️" : "✅") Nombre de la categoria")
                                 .font(.footnote)
                                 .padding(.top, 5)
                                 .foregroundColor(textFieldCateg.isEmpty ? .red : .primary)
@@ -55,7 +58,12 @@ struct AddCategView: View {
                     Button("Guardar"){
                         if textFieldCateg.isEmpty {return}
                         
-                        _ = CRUDModel().addCategoria(categoria: textFieldCateg, isfav: fav, nota: textFieldNota)
+                        if  CRUDModel().addCategoria(categoria: self.textFieldCateg, isfav: self.fav, nota: self.textFieldNota) != nil {
+                            //Actualiza el listado y sale
+                            listado = CRUDModel().getListOfCateg()
+                        }
+                        
+                        dismiss()
                         
                     }
                     .buttonStyle(.bordered)
@@ -63,6 +71,8 @@ struct AddCategView: View {
                 }
                 .padding(.bottom, 50)
             }
+            .background(.black)
+            .foregroundColor(.white)
             
             
         }
@@ -70,5 +80,6 @@ struct AddCategView: View {
 }
 
 #Preview {
-    AddCategView()
+    AddCategView(listado: .constant([Categorias]()))
+    
 }

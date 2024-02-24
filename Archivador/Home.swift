@@ -11,19 +11,19 @@ import CoreData
 struct Home: View {
     
     @State var CategoriaActual : Categorias?
-
+    @State var listCategorias = CRUDModel().getListOfCateg()
     
     var body: some View {
         NavigationStack {
             ZStack {
-                LinearGradient(colors: [.green, .orange.opacity(0.7)], startPoint: .top, endPoint: .bottom)
+                LinearGradient(colors: [.blue,.green, .orange.opacity(0.7)], startPoint: .top, endPoint: .bottom)
                     .ignoresSafeArea()
                 VStack{
-                    ListCateg()
-                        .padding(.top, 20)
-
+                    ListCategHome(listCategorias: $listCategorias)
+                      .padding(.top, 20)
+                    
                     Spacer()
-                    TabButtonBar()
+                    TabButtonBar(listCategorias: $listCategorias)
                 }
                 Spacer()
                 
@@ -31,20 +31,20 @@ struct Home: View {
             .navigationTitle("Archivador")
             .navigationBarTitleDisplayMode(.inline)
         }
+        
     }
-    
-    
 
+        
+        
 
-    
     struct TabButtonBar : View{
-          
-        @State  var tabs = ["book.pages.fill", "list.bullet","plus.circle.fill","text.viewfinder", "slider.vertical.3"]
-        @State var showSheetAddCateg = false
-        @State var showSheetAddEntrada = false
-        var body: some View{
-            
-            //Creando La bottom Bar con los item del menu
+            @Binding var listCategorias : [Categorias]
+            @State  var tabs = ["book.pages.fill", "list.bullet","plus.circle.fill","text.viewfinder", "slider.vertical.3"]
+            @State var showSheetAddCateg = false
+            @State var showSheetAddEntrada = false
+
+                //Creando La bottom Bar con los item del menu
+        var body : some View {
             HStack{
                 ForEach (tabs, id: \.self ){ image in
                     
@@ -97,12 +97,14 @@ struct Home: View {
             .shadow(color: Color.black.opacity(0.15), radius: 5, x: 5, y: 5)
             .shadow(color: Color.black.opacity(0.15), radius: 5, x: -5, y: -5)
             .padding(.horizontal)
-            .sheet(isPresented: $showSheetAddCateg, content: {
-                AddCategView()
-            })
-            .sheet(isPresented: $showSheetAddEntrada, content: {
+            .sheet(isPresented: $showSheetAddCateg){
+                AddCategView(listado: $listCategorias)
+                    .presentationDetents([.medium])
+                    .presentationDragIndicator(.hidden)
+            }
+            .sheet(isPresented: $showSheetAddEntrada) {
                 AddEntradaView()
-            })
+            }
         }
         
         //Create UI for reusability
@@ -111,107 +113,116 @@ struct Home: View {
                 .renderingMode(.template)
                 .foregroundColor( Color.black.opacity(0.4))
                 .padding(10)
-            
         }
+                
+    }
+            
+
         
-    }
-  
     
     
     
-}
+        //Listado de categorias Home()
+       struct ListCategHome : View {
+            @Binding var listCategorias : [Categorias]
+            @FocusState var focuss : Bool
+            @State var textFielSearch = ""
+            @State var ShowtextFielSearch = false
+            
+            @State var ShowSheetAddNewEntrada = false
+            @State var CategoriaParaAdicionar : Categorias? //Almacena una categoria para adicionarle entrada
+            @State var CategoriaParaEliminar : Categorias? //Almacena una categoria para eliminarla
+            
+            @State  var showConfirmDialogDeleteNota = false
+            
+             var filtered : [Categorias] {
+                if textFielSearch.isEmpty {return listCategorias}
+                return listCategorias.filter{AESModel().aesGCMDec(strEnc: $0.categoria ?? "").localizedStandardContains(textFielSearch) }
+            }
 
-
-
-
-//Listado de categorias Home()
-struct ListCateg : View {
-    @Environment(\.colorScheme) var theme
-    @FocusState var focuss : Bool
-    @State var listCatg = CRUDModel().getListOfCateg()
-    @State var textFielSearch = ""
-    @State var ShowtextFielSearch = false
-    
-    @State var ShowSheetAddNewEntrada = false
-    @State var CategoriaTemp : Categorias? //Almacena jna categoria para adicionarle entrada
-    
-    private var filtered : [Categorias] {
-        if textFielSearch.isEmpty {return self.listCatg}
-        return self.listCatg.filter{AESModel().aesGCMDec(strEnc: $0.categoria ?? "").localizedStandardContains(self.textFielSearch) }
-    }
-    var body: some View {
-        NavigationStack {
-            VStack {
-                HStack{
-                    Text("Categorías").bold().fontDesign(.serif)
-                    Spacer()
-                    Button{
-                        withAnimation {
-                            ShowtextFielSearch.toggle()
-                            if !ShowtextFielSearch {
-                                self.textFielSearch = ""
-                                focuss = false
-                            }
-                            
-                        }
-                    }label: {
-                        Image(systemName: "magnifyingglass")
-                    }.padding(.trailing, 10)
-                }.padding(.horizontal)
-                if ShowtextFielSearch {
+            var body : some View {
+                NavigationStack {
+                    //Searchs
+                    VStack {
                         TextField("", text: $textFielSearch, prompt: Text(" 🔍 Buscar en categorias"))
                             .padding(.horizontal)
                             .focused($focuss)
                             .frame(maxWidth: .infinity)
-                }
-                
+                    }
+                    .task {
+                        listCategorias = CRUDModel().getListOfCateg()
+                    }
                     
-            }
-            
-            ScrollView {
-                ForEach(self.filtered){item in
-                    VStack{
-                        HStack{
-                            NavigationLink{
-                                ListEntradasView(categoria: item)
-                            }label: {
-                                Text(AESModel().aesGCMDec(strEnc: item.categoria ?? ""))
-                                    .foregroundStyle(theme == .dark ? .white : .black)
-                                    .frame(maxWidth: .infinity, alignment: .leading)
-                                    .contentShape(Rectangle())
-                            }
-                            Spacer()
-                            Menu{
-                                Button{
-                                    
-                                    self.CategoriaTemp = item
-                                }label: {
-                                    Label("Adicionar entrada", systemImage: "plus")
+                    ScrollView {
+                        ForEach(filtered){categ in
+                            VStack{
+                                HStack{
+                                    NavigationLink{
+                                        ListEntradasView(categoria: categ)
+                                    }label: {
+                                        Text(AESModel().aesGCMDec(strEnc: categ.categoria ?? ""))
+                                            .frame(maxWidth: .infinity, alignment: .leading)
+                                            .contentShape(Rectangle())
+                                    }
+                                    Spacer()
+                                    Button{
+                                        
+                                        CategoriaParaAdicionar = categ
+                                    }label: {
+                                        Label("", systemImage: "plus")
+                                    }
+                                    Menu{
+                                        Button("Eliminar Categoria"){
+                                            CategoriaParaEliminar = categ
+                                            showConfirmDialogDeleteNota = true
+                                        }
+                                        
+                                    }label: {
+                                        Image(systemName: "ellipsis")
+                                            .frame(width: 30,  height: 20)
+                                    }
                                 }
+                                .padding(15)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .background(.ultraThinMaterial)
+                                .clipShape(RoundedRectangle(cornerRadius: 20))
+                                .padding(.horizontal)
                                 
-                            }label: {
-                                Image(systemName: "ellipsis")
-                                    .frame(width: 30,  height: 20)
                             }
                         }
-                        .padding(15)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .background(.ultraThinMaterial)
-                        .clipShape(RoundedRectangle(cornerRadius: 20))
-                        .padding(.horizontal)
-                        
+                    }
+                    .confirmationDialog("Eliminar una Categoría", isPresented: $showConfirmDialogDeleteNota) {
+                        Button("Eliminar categoría", role: .destructive){
+                            
+                            if let cat = CategoriaParaEliminar {
+                                if  CRUDModel().DeleteRecord(record: cat){
+                                    print("Se ha eliminado la categoría y todas sus entradas")
+                                }
+                            }
+                        }
+                    }message: {
+                        Text("Al eliminar una categoría se eliminan todas las entradas asociadas. Esta acción no puede deshacerse")
+                    }
+                    .sheet(item: $CategoriaParaAdicionar){ categ in
+                        AddEntradaView(selectedCateg: categ)
                     }
                 }
             }
-        }
-        .sheet(item: $CategoriaTemp, content: { categ in
-                AddEntradaView(selectedCateg: categ)
-        })
-    }
+                
+            }
+    
+    
+    
+    
+  
+    
 }
+    
+    
+    
 
 
-
+    
 
 
 #Preview {
