@@ -10,23 +10,39 @@ import CoreData
 
 struct AddCategView: View {
     @Environment(\.dismiss) var dismiss
-    @Binding var listado : [Categorias]  //Listado que será actualizado una vez se adicione la categoria
+    @Binding var updateHome : Int8
     @State var textFieldCateg = ""
     @State var textFieldNota = ""
+    @State var icono : String = "apple"
     @State var fav = false
+    @State var showSheetIconList = false
     
     var body: some View {
         NavigationStack {
             VStack{
                 Form{
                     Section("Nueva Categoria"){
-                        VStack(alignment: .leading){
-                            TextField("Nueva Categoria", text: $textFieldCateg, axis: .vertical)
-                            
-                            Text("\(textFieldCateg.isEmpty ? "⚠️" : "✅") Nombre de la categoria")
-                                .font(.footnote)
-                                .padding(.top, 5)
-                                .foregroundColor(textFieldCateg.isEmpty ? .red : .primary)
+                        HStack{
+                            VStack(alignment: .leading){
+                                TextField("Nueva Categoria", text: $textFieldCateg, axis: .vertical)
+                                
+                                Text("\(textFieldCateg.isEmpty ? "⚠️" : "✅") Nombre de la categoria")
+                                    .font(.footnote)
+                                    .padding(.top, 5)
+                                    .foregroundColor(textFieldCateg.isEmpty ? .red : .primary)
+                            }
+                            Spacer()
+                            VStack{
+                                Button{
+                                    showSheetIconList = true
+                                }label: {
+                                    VStack{
+                                        Image(path: self.icono).imageIcono()
+                                        Text("Icono")
+                                    }
+                                    
+                                }
+                            }
                         }
                         
                     }
@@ -58,9 +74,10 @@ struct AddCategView: View {
                     Button("Guardar"){
                         if textFieldCateg.isEmpty {return}
                         
-                        if  CRUDModel().addCategoria(categoria: self.textFieldCateg, isfav: self.fav, nota: self.textFieldNota) != nil {
-                            //Actualiza el listado y sale
-                            listado = CRUDModel().getListOfCateg()
+                        
+                        if let categ =  CRUDModel().addCategoria(categoria: self.textFieldCateg, isfav: self.fav, nota: self.textFieldNota, icono: self.icono){
+                            //Actualizar home() sale
+                            self.updateHome += 1
                         }
                         
                         dismiss()
@@ -71,8 +88,9 @@ struct AddCategView: View {
                 }
                 .padding(.bottom, 50)
             }
-            .background(.black)
-            .foregroundColor(.white)
+            .sheet(isPresented: $showSheetIconList){
+                ListOfImagesView(image: $icono)
+            }
             
             
         }
@@ -80,6 +98,5 @@ struct AddCategView: View {
 }
 
 #Preview {
-    AddCategView(listado: .constant([Categorias]()))
-    
+    AddCategView(updateHome: .constant(1))
 }

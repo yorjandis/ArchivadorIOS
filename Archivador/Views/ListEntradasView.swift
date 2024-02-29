@@ -6,179 +6,206 @@
 //
 
 import SwiftUI
+import CoreData
 
+// HTMLView(txt: self.texto)
 
 //Muestra el listado de entradas con a lista de categorias:
 struct ListEntradasView: View {
-    @State var  listCateg : [Categorias] = CRUDModel().getListOfCateg()
-    @State var  categoria : Categorias? = CRUDModel().getListOfCateg().randomElement()
-    @State private var listEntradas : [Entrada] = []
-    @FocusState var focuss : Bool
-    @State var textFielSearch = ""
-    @State var showSheetListCateg = false
-    private var filtered : [Entrada] {
-        if textFielSearch.isEmpty {return self.listEntradas}
-        return self.listEntradas.filter{AESModel().aesGCMDec(strEnc: $0.title ?? "").localizedStandardContains(self.textFielSearch) }
-    }
+    
+    @Binding var updateHome : Int8 //Permite a Home() actuzalizar las categorias y su info
+    @State var categoria : Categorias? = nil //Si es nil, se tiene que escoger una categoria
+    @State var listCategorias : [Categorias] = []
+    @State var listEntradas : [Entrada] = []
+    @State private var refresListEntradas = false //Permite crear la lista de entrada de nuevo
+    
+    @State var showConfirmDialogDelete = false
+    @State var selectedEntradaForDelete : Entrada?
+
+    
     var body: some View {
-        
-        NavigationStack {
+        NavigationStack{
+            
+            ZStack{
                 
                 VStack{
-                  
-                    
-                    //Permite escoger una categoria
-                    VStack(alignment: .leading){
-                        HStack{
-                            Button{
-                                showSheetListCateg = true
-                            }label: {
-                                Text("Seleccionar Categoria...")
-                                    .foregroundColor(.primary)
+                    //Categorias
+                    VStack{
+                        Menu{
+                            Button("Todas las Entradas"){
+                                self.categoria = nil
+                                self.refresListEntradas.toggle()
                             }
-                            .buttonStyle(.bordered)
-                            .onChange(of: self.categoria) {
-                                if let categ = self.categoria {
-                                    listEntradas = CRUDModel().getListOfEntradas(categoria: categ)
+                            Button("Entradas sin Categorías"){
+                                self.categoria = nil
+                                self.listEntradas = CRUDModel().getEntradasSinCateg()
+                            }
+                            ForEach(listCategorias){categ in
+                                Button{
+                                    self.categoria = categ
+                                    self.refresListEntradas.toggle()
+                                }label: {
+                                    Label {
+                                        Text(AESModel().aesGCMDec(strEnc: categ.categoria ?? ""))
+                                    } icon: {
+                                        Image(path: categ.icono ?? "tags").imageIcono()
+                                    }
+                                    
                                 }
                             }
-                            .padding(.horizontal)
-                            Spacer()
-                            
-                            NavigationLink{
-                                AddEntradaView(selectedCateg: self.categoria)
-                            }label: {
-                                Image(systemName: "plus")
+                        }label: {
+                            if let categ = self.categoria {
+                                Image(path: categ.icono ?? "").imageIcono()
+                                Text(AESModel().aesGCMDec(strEnc: self.categoria?.categoria ?? ""))
+                                .frame(height: 40)
+                            }else{
+                                Image(systemName: "line.3.horizontal.decrease")
+                                    .font(.system(size: 25))
                             }
-                            .padding(.trailing, 40)
                             
-                        }
-                        
-                        
-                        Text(AESModel().aesGCMDec(strEnc: self.categoria?.categoria ?? "" ))
-                            .font(.title)
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .padding(.horizontal)
                     }
-                    .padding(.top, 20)
-                    
-                    VStack {
-                        if self.listEntradas.count > 0 { //Si hay entradas muestra la barra de búsqueda
-                            HStack{
-                                TextField("", text: $textFielSearch, prompt: Text(" 🔍 Buscar en entradas").bold())
-                                    .padding(.horizontal)
-                                    .focused($focuss)
-                                
-                                Spacer()
-                                
-                            }.padding(.horizontal)
-                        }
+                    .padding(.top, 8)
+                    .onAppear{
+                            self.refresListEntradas.toggle()
                     }
                     
-                    ScrollView{
-                        ForEach(self.filtered, id: \.id){item in
-                            cardEntrada(item: item)
-                        }
-                    }
+                }
                     
                     Spacer()
-                }
-                .navigationTitle("Entradas")
-                .navigationBarTitleDisplayMode(.inline)
-                .task {
-                    if let categ = self.categoria {
-                        listEntradas = CRUDModel().getListOfEntradas(categoria: categ)
-                    }
-                }
-                .sheet(isPresented: $showSheetListCateg, content: {
-                    listadoCategorias(listCateg: $listCateg, selectedCateg: $categoria)
-                        .presentationDetents([.medium])
-                        .presentationDragIndicator(.hidden)
-                })
-                
-                
-            }
-    }
-    
-    struct cardEntrada : View {
-        let item : Entrada
-        @State var expandText : Bool = false
-        
-        var body: some View {
-            VStack{
-                HStack{
-                    Text(AESModel().aesGCMDec(strEnc: item.title ?? ""))
-                    Spacer()
-                }
-                if self.expandText {
-                    HStack{
-                        Text(AESModel().aesGCMDec(strEnc: item.entrada ?? ""))
-                        Spacer()
-                    }.padding(.top, 5)
-                   
-                }
-                
-            }
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .padding()
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .background(.ultraThinMaterial)
-            .clipShape(RoundedRectangle(cornerRadius: 20))
-            .padding(.horizontal)
-            .contentShape(Rectangle())
-            .onTapGesture{
-                withAnimation {
-                    expandText.toggle()
-                }
-            }
-        }
-    }
-    
-    
-    
-    //Pedrmite escoger una categoria
-    struct listadoCategorias : View {
-        @Environment(\.dismiss) var dimiss
-        @Binding var listCateg : [Categorias]
-        @Binding var selectedCateg : Categorias?
-        @State private var showSheeAddCateg = false
-        var body: some View {
-            NavigationStack {
-                VStack{
                     
-                    List(listCateg, id:\.id){ item in
-                        
-                        Button(AESModel().aesGCMDec(strEnc: item.categoria ?? "")){
-                            selectedCateg = item
-                            dimiss()
+                    //Entradas
+                    VStack{
+                        ScrollView{
+                            ForEach(listEntradas){ entrada in
+                                VStack{
+                                    HStack{
+                                        //icono
+                                        VStack{
+                                            Image(path: entrada.icono ?? "tags").imageIcono()
+                                        }
+                                        
+                                        Spacer()
+                                        
+                                        //entrada & Categoría
+                                        VStack(alignment: .leading){
+                                            NavigationLink{
+                                                EntradaContentView(entrada: entrada)
+                                            }label:{
+                                                Text(AESModel().aesGCMDec(strEnc: entrada.title ?? ""))
+                                                .frame(maxWidth: .infinity, alignment: .leading)
+                                                .contentShape(Rectangle())
+                                            }
+                                            
+                                                
+                                            //Categoria:
+                                            if entrada.categ != nil {
+                                                Text(AESModel().aesGCMDec(strEnc: entrada.categ?.categoria ?? ""))
+                                                    .font(.footnote)
+                                                    .foregroundStyle(.gray)
+                                                    .fontDesign(.serif)
+                                            }else{ //Si la categoria es nil permitir ponerle una entrada a la categoría
+                                                HStack{
+                                                    //Text("Sin Categría")
+                                                    Button("Asignar Categoria"){
+                                                        
+                                                    }
+                                                    .padding(.bottom, 5)
+                                                    .buttonStyle(.bordered)
+                                                }
+                                                
+                                            }
+                                        }
+                                        .frame(maxWidth: .infinity, alignment: .leading)
+                                        .padding(.top, 10)
+                                        .padding(.horizontal, 8)
+                                        
+                                        Spacer()
+                                        
+                                        //Menu:
+                                        VStack{
+                                            Menu{
+                                                
+                                                Button("Modificar"){}
+                                                
+                                                Button("Cambiar de Categoría"){}
+                                                
+                                                Button("Eliminar entrada"){
+                                                    self.selectedEntradaForDelete = entrada
+                                                    showConfirmDialogDelete = true
+                                                }
+                                            }label:{
+                                                Image(systemName: "ellipsis")
+                                                    .frame(width: 30  ,height: 30)
+                                            }
+                                        }
+                                    }
+                                    .padding(.horizontal, 10)
+
+                                }
+                                .background(Color("yor"))
+                                .foregroundStyle(.black)
+                                .clipShape(RoundedRectangle(cornerRadius: 18))
+                                .padding(.horizontal,10)
+                            }
                         }
-                        
+                        .confirmationDialog("Eliminar una Entrada", isPresented: $showConfirmDialogDelete) {
+                            Button("Eliminar entrada", role: .destructive){
+                                
+                                if let entrada = self.selectedEntradaForDelete {
+                                    if  CRUDModel().DeleteRecord(record: entrada){
+                                        print("Se ha eliminado la entrada")
+                                        withAnimation {
+                                            if let categ = self.categoria {
+                                                self.listEntradas = CRUDModel().getListOfEntradas(categoria: categ)
+                                            }else{
+                                                self.listEntradas = CRUDModel().getAllListOfEntradas()
+                                            }
+                                        }
+                                        self.updateHome += 1
+                                        
+                                    }
+                                }
+                            }
+                        }message: {
+                            Text("Esta acción no puede deshacerse")
+                        }
                     }
-                }
-                .toolbar{
-                    Button{
-                        listCateg = CRUDModel().getListOfCateg()
-                    }label: {
-                        Image(systemName: "arrow.circlepath")
+                    .onChange(of: refresListEntradas){
+                        if self.categoria != nil {
+                            listEntradas = CRUDModel().getListOfEntradas(categoria: self.categoria!)
+                        }else{
+                            //Si categoria es nil se listan todas las entradas
+                            self.listEntradas = CRUDModel().getAllListOfEntradas()
+                        }
                     }
                     
-                    Button{
-                        self.showSheeAddCateg = true
-                    }label: {
-                        Image(systemName: "plus")
-                    }
+                    
                 }
-                .navigationTitle("Seleccionar una Categoria")
-                .navigationBarTitleDisplayMode(.inline)
-                .sheet(isPresented: $showSheeAddCateg, content: {
-                    AddCategView(listado: $listCateg)
-                })
+ 
             }
+            .task {
+                self.listCategorias = CRUDModel().getListOfCateg()
+            }
+            .background(
+                Image("background")
+                    .resizable()
+                    .edgesIgnoringSafeArea(.all)
+                    .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+            )
+            .navigationTitle("Lista de Entradas")
+            .navigationBarTitleDisplayMode(.inline)
+            
+            
         }
     }
     
 }
 
+
+
+
+
+
 #Preview {
-    ListEntradasView()
+    ListEntradasView(updateHome: .constant(1), categoria: CRUDModel().getListOfCateg().randomElement())
 }

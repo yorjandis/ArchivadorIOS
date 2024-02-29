@@ -13,7 +13,6 @@ struct ArchivadorApp: App {
     var body: some Scene {
         WindowGroup {
             Home()
-                .foregroundStyle(.black)
         }
     }
 }

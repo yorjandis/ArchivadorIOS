@@ -9,40 +9,94 @@ import SwiftUI
 import CoreData
 
 struct AddEntradaView: View {
-
-    @State var listCateg = CRUDModel().getListOfCateg()
-    @State var selectedCateg : Categorias?
+    
+    @Environment(\.dismiss) var dimiss
+    @Binding var listCateg : [Categorias]
+    @Binding var updateHome : Int8 //Permite actualizar la home()
+    @State var selectedCateg : Categorias? //Si viene de Home() tendrá una categoria
     @State var textFieldTitulo = ""
     @State var textFieldEntrada = ""
+    @State var icono : String = "apple"
     @State var fav = false
     @State var colorText : Color = .primary
     @State var showSheetAddCateg = false
+    
+    
     
     var body: some View {
         NavigationStack {
             VStack{
                 Form{
                     Section("Categoría de la Entrada"){
-                        VStack(alignment: .leading){
-                            //Construir un menu para escoger las categorias
-                            if !listCateg.isEmpty {
-                                Menu("Seleccione una categoría...") {
-                                    ForEach(listCateg){ i in
-                                        Button(AESModel().aesGCMDec(strEnc: i.categoria ?? "")){
-                                            self.selectedCateg = i
+                        HStack{
+                                HStack{
+                                    //Construir un menu para escoger las categorias
+                                    if !listCateg.isEmpty {
+                                        Menu{
+                                            ForEach(listCateg){ categ in
+                                                Button{
+                                                    self.selectedCateg = categ
+                                                }label: {
+                                                    Label {
+                                                        Text(AESModel().aesGCMDec(strEnc: categ.categoria ?? ""))
+                                                    } icon: {
+                                                        Image(path: categ.icono ?? "tags").imageIcono()
+                                                    }
+                                                    
+                                                }
+                                            }
+                                        }label: {
+                                            if self.selectedCateg != nil {
+                                                Label {
+                                                    Text( AESModel().aesGCMDec(strEnc: self.selectedCateg?.categoria ?? ""))
+                                                } icon: {
+                                                    Image(path: self.selectedCateg?.icono ?? "tags").imageIcono()
+                                                }
+                                                
+                                            }else{
+                                                Text("Seleccione Categoría...")
+                                            }
+                                            
                                         }
                                     }
+                                    else{ //Si la lista de categoria está vacia: hay que crear nueva Categoría
+                                        
+                                        NavigationLink{
+                                            AddCategView(updateHome: $updateHome)
+                                        }label: {
+                                            Label("Crear Nueva Categoría", systemImage: "folder.badge.plus")
+                                        }
+                                        
+                                    }
+                                   
                                 }
-                            }
-                            Text("\( selectedCateg != nil ? AESModel().aesGCMDec(strEnc: self.selectedCateg?.categoria ?? ""): "⚠️")")
-                                .foregroundStyle(.orange).bold()
                                 
-                                
-                                
+                                Spacer()
+                                if !self.listCateg.isEmpty {
+                                    Menu{
+                                        Button{
+                                            showSheetAddCateg = true
+                                        }label: {
+                                            Label {
+                                                Text("Nueva Categoría")
+                                            } icon: {
+                                                Image(systemName: "plus")
+                                            }
+                                            
+                                            
+                                        }
+                                    }label: {
+                                        Image(systemName: "ellipsis")
+                                            .frame(width: 50, height: 45)
+                                    }
+                                    .padding(.top, 10)
+                                }
+    
+                        }
+                        .task {
+                            self.listCateg = CRUDModel().getListOfCateg()
                         }
                     }
-                    
-                    
                     
                     Section("Título de la Entrada"){
                         VStack(alignment: .leading){
@@ -59,6 +113,18 @@ struct AddEntradaView: View {
                         
                     }
                     
+                    Section("Icono"){
+                        HStack(spacing: 25){
+                            Image(path: self.icono).imageIcono()
+                            
+                            NavigationLink("Seleccionar icono"){
+                                ListOfImagesView(image: $icono)
+                            }
+                        }
+                        
+                        
+                    }
+                    
                     Section("Texto de la entrada"){
                         VStack(alignment: .leading){
                             TextField("Contenido de la entrada", text: $textFieldEntrada, axis: .vertical)
@@ -66,7 +132,7 @@ struct AddEntradaView: View {
                                     if !textFieldEntrada.isEmpty {colorText = .primary}
                                 }
                             
-                            Text("\(textFieldEntrada.isEmpty ? "⚠️" : "✅") Nombre de la categoría")
+                            Text("\(textFieldEntrada.isEmpty ? "⚠️" : "✅") Contenido útil de la entrada")
                                 .font(.footnote)
                                 .padding(.top, 5)
                                 .foregroundColor(textFieldEntrada.isEmpty ? .red : .primary)
@@ -96,25 +162,22 @@ struct AddEntradaView: View {
                             if textFieldTitulo.isEmpty {return}
                             if textFieldEntrada.isEmpty {return}
                             
-                            if CRUDModel().AddEntrada(title: textFieldTitulo, entrada: textFieldEntrada, categoria: categ) != nil{
-                                //OKOKOKOK
-                                
+                            if CRUDModel().AddEntrada(title: textFieldTitulo, entrada: textFieldEntrada, categoria: categ, image: "", isfav: self.fav, icono: self.icono) != nil{
+                                self.updateHome += 1 //Actualizando home()
+                                dimiss()
                             }else{
-                                print("algo ha salido mal")
+                                print("Error al guardar la entrada")
                             }
                             
                         }
                         
                     }
                     .buttonStyle(.bordered)
-                    //.buttonStyle(.borderedProminent)
                 }
                 .padding(.bottom, 50)
             }
-            .background(.black)
-            .foregroundStyle(.white)
             .sheet(isPresented: $showSheetAddCateg, content: {
-                AddCategView(listado: $listCateg)
+                AddCategView(updateHome: $updateHome)
             })
             
         }
@@ -129,5 +192,5 @@ struct AddEntradaView: View {
 
 
 #Preview {
-    AddEntradaView()
+    AddEntradaView(listCateg: .constant([Categorias]()), updateHome: .constant(1))
 }
