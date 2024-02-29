@@ -84,7 +84,23 @@ struct CRUDModel {
         }
     }
     
-    ///Elimina las entradas sin categoria
+    ///(ojo) Elimina todas las categorias
+    func DeleteAllCategorias()->Bool{
+        let array = getListOfCateg()
+        
+        for i in array{
+            context.delete(i)
+        }
+        do{
+            try context.save()
+            return true
+        }catch{
+            return false
+        }
+        
+    }
+    
+    ///(ojo)Elimina las entradas sin categoria
     /// - Returns - Devuelve true si la operación ha sido exitosa
     func DeleteAllEntradasSinCateg()->Bool{
         let fetchRequest : NSFetchRequest<Entrada> = Entrada.fetchRequest()
@@ -102,7 +118,7 @@ struct CRUDModel {
         }
     }
   
-    ///Elimina todas las entradas para una categoria dada
+    ///(ojo)Elimina todas las entradas para una categoria dada
     /// - Returns - Devuelve true si la operación ha sido exitosa
     func DeleteAllEntradasForCateg(categoria: Categorias)->Bool {
         let fetchRequest : NSFetchRequest<Entrada> = Entrada.fetchRequest()

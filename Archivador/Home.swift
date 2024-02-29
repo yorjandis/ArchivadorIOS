@@ -45,55 +45,30 @@ struct Home: View {
     struct TabButtonBar : View{
             @Binding var listCategorias : [Categorias]
             @Binding var updateHome : Int8
-            @State var categoriaTemp : Categorias? //No hace nada yor
-            @State  var tabs = ["book.pages.fill", "list.bullet","plus.circle.fill","text.viewfinder", "slider.vertical.3"]
             @State var showSheetAddCateg = false
             @State var showSheetAddEntrada = false
 
                 //Creando La bottom Bar con los item del menu
         var body : some View {
             HStack{
-                ForEach (tabs, id: \.self ){ image in
+                Spacer()
+                
+                Menu{
+                    Button("Nueva Entrada"){showSheetAddEntrada = true}
+                    Button("Nueva Categoría"){showSheetAddCateg = true}
                     
-                    switch image{
-                    case "plus.circle.fill":
-                        Menu{
-                            Button("Nueva Entrada"){showSheetAddEntrada = true}
-                            Button("Nueva Categoria"){showSheetAddCateg = true}
-                            
-                        }label: {
-                            makeItemlabel(image: image)
-                                .font(.system(size: 30))
+                }label: {
+                    Circle()
+                        .fill(Color("yor"))
+                        .frame(height: 60)
+                        .overlay {
+                            Image(systemName: "plus").bold().font(.system(size: 24)).foregroundColor(.black)
                         }
-                    case "text.viewfinder":
-                        NavigationLink{ testView()}label: {
-                            makeItemlabel(image: image)
-                        }
-                        
-                    case "slider.vertical.3":
-                        Button{}label: {
-                            makeItemlabel(image: image)
-                        }
-                        
-                    default: EmptyView()
-                        
-                    }
-                    
-                    //Insertando un espaciado para mantener la distancia entre los items
-                    if image != tabs.last {
-                        Spacer(minLength: 0)
-                    }
-                    
-                }//ForEach
+                        .padding(.trailing, 50)
+                }
+                
                 
             }
-            .padding(.horizontal, 25)
-            .padding(.vertical, 2)
-            .background(LinearGradient(colors: [.gray, .cyan], startPoint: .top, endPoint: .bottom))
-            .clipShape(Capsule())
-            .shadow(color: Color.black.opacity(0.15), radius: 5, x: 5, y: 5)
-            .shadow(color: Color.black.opacity(0.15), radius: 5, x: -5, y: -5)
-            .padding(.horizontal)
             .sheet(isPresented: $showSheetAddCateg){
                 AddCategView(updateHome: $updateHome)
                     .presentationDetents([.medium])
@@ -103,14 +78,7 @@ struct Home: View {
                 AddEntradaView(listCateg: $listCategorias, updateHome: $updateHome)
             }
         }
-        
-        //Create UI for reusability
-        func makeItemlabel(image : String)->some View{
-            return Image(systemName: image)
-                .renderingMode(.template)
-                .foregroundColor( Color.black.opacity(0.4))
-                .padding(10)
-        }
+
                 
     }
     
