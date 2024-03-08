@@ -4,6 +4,7 @@
 //
 //  Created by Yorjandis Garcia on 23/2/24.
 //
+//Permite adicionar y mnodificar una categoría
 
 import SwiftUI
 import CoreData
@@ -11,22 +12,26 @@ import CoreData
 struct AddCategView: View {
     @Environment(\.dismiss) var dismiss
     @Binding var updateHome : Int8
-    @State var textFieldCateg = ""
-    @State var textFieldNota = ""
-    @State var icono : String = "apple"
-    @State var fav = false
-    @State var showSheetIconList = false
+    @Binding var categoria : Categorias? //Para devolver la categoria recien creada al llamador
+    @State var categoriaForModif : Categorias?
+    @State private var textFieldCateg = ""
+    @State private var textFieldNota = ""
+    @State private var icono : String = "apple"
+    @State private var fav = false
+    @State private var showSheetIconList = false
+    
+   
     
     var body: some View {
         NavigationStack {
             VStack{
                 Form{
-                    Section("Nueva Categoria"){
+                    Section("Categoría"){
                         HStack{
                             VStack(alignment: .leading){
-                                TextField("Nueva Categoria", text: $textFieldCateg, axis: .vertical)
+                                TextField("Nombre de la Categoría", text: $textFieldCateg, axis: .vertical)
                                 
-                                Text("\(textFieldCateg.isEmpty ? "⚠️" : "✅") Nombre de la categoria")
+                                Text("\(textFieldCateg.isEmpty ? "⚠️" : "✅") Nombre de la categoría")
                                     .font(.footnote)
                                     .padding(.top, 5)
                                     .foregroundColor(textFieldCateg.isEmpty ? .red : .primary)
@@ -50,7 +55,7 @@ struct AddCategView: View {
                     Section("Favorito"){
                         VStack(alignment: .leading){
                             Toggle("Favorito", isOn: $fav)
-                            Text("Marque la nueva categoria como favorito")
+                            Text("Marque la nueva categoría como favorito")
                                 .font(.footnote)
                                 .padding(.top, 5)
                         }
@@ -67,36 +72,59 @@ struct AddCategView: View {
                     }
                     
                 }
-                .navigationTitle("Nueva Categoría")
+                .navigationTitle(self.categoriaForModif == nil ? "Nueva Categoría" : "Actualizar Categoría")
                 .navigationBarTitleDisplayMode(.inline)
+                .task {
+                    if let categ = self.categoriaForModif {
+                        self.textFieldCateg = AESModel().aesGCMDec(strEnc: categ.categoria ?? "")
+                        self.textFieldNota = AESModel().aesGCMDec(strEnc: categ.nota ?? "")
+                        self.fav = categ.isfav
+                        self.icono = categ.icono ?? ""
+                    }
+                }
                 
                 VStack() {
-                    Button("Guardar"){
-                        if textFieldCateg.isEmpty {return}
+                    Button(self.categoriaForModif == nil ? "Guardar" : "Actualizar"){
                         
-                        
-                        if let categ =  CRUDModel().addCategoria(categoria: self.textFieldCateg, isfav: self.fav, nota: self.textFieldNota, icono: self.icono){
-                            //Actualizar home() sale
-                            self.updateHome += 1
+                        if self.categoriaForModif == nil { //Guardar la nueva categoría
+                            if textFieldCateg.isEmpty {return}
+                            if let categ =  CRUDModel().addCategoria(categoria: self.textFieldCateg, isfav: self.fav, nota: self.textFieldNota, icono: self.icono){
+                                //Actualizar home() sale
+                                self.categoria = categ //Devolviendo la categoria
+                                self.updateHome += 1
+                                dismiss()
+                            }
+                        }else{ //Modificar Categoría
+                            
+                            if  CRUDModel().modifCategoria(categoria: self.categoriaForModif!, categoriaLabel: self.textFieldCateg, isfav: self.fav, nota: textFieldNota, icono: self.icono) {
+                                //print("Se ha actualziado la categoría")
+                                self.updateHome += 1
+                                dismiss()
+                            }else{
+                                print("Error al actualizar la categoría")
+                            }
+                            
                         }
                         
-                        dismiss()
+                        
                         
                     }
                     .buttonStyle(.bordered)
-                    //.buttonStyle(.borderedProminent)
+                    .foregroundStyle(.primary)
                 }
                 .padding(.bottom, 50)
             }
             .sheet(isPresented: $showSheetIconList){
                 ListOfImagesView(image: $icono)
+                    .presentationDetents([.medium])
+                    .presentationDragIndicator(.hidden)
             }
             
             
-        }
+        }.preferredColorScheme(.dark)
     }
 }
 
-#Preview {
-    AddCategView(updateHome: .constant(1))
-}
+
+
+

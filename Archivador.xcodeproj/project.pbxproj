@@ -465,6 +465,7 @@
 			children = (
 				1931B18E2B86E41100A51EF6 /* CoreData */,
 				1931B1902B86E46B00A51EF6 /* Utils.swift */,
+				19086B6C2B8FEE0C00446F4C /* EntradaContentView.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -522,7 +523,6 @@
 				1931B1B72B88BBC300A51EF6 /* ListEntradasView.swift */,
 				190160EC2B897FA6002A51E0 /* ListOfImagesView.swift */,
 				19086B6A2B8FD65000446F4C /* testView.swift */,
-				19086B6C2B8FEE0C00446F4C /* EntradaContentView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";

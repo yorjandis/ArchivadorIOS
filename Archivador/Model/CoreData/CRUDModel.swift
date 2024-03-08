@@ -12,20 +12,20 @@ import CoreData
 
 struct CRUDModel {
     let context = PersistenceController.shared.context
- 
+    
     ///Adiciona una nueva categoria. Las categorias no pueden repetirse
     /// - Returns -  Devuelve la categoria recien creada, si falla devuelve nil
     func addCategoria(categoria: String, isfav : Bool = false, nota: String = "", icono: String = "")->Categorias?{
         
         //Comprobando si existe una categoria igual en la BD CASE Insensitive
-            let categEncript = AESModel().aesGCMEnc(str: categoria)//Encriptar el texto de la categoria
-            if categEncript.isEmpty {return nil} //No se pudo encriptar el texto de la categoria...SALE!
-            
-            let arrayCatgTemp = getListOfCateg() //Obtiene el listado de categorias
-            if !arrayCatgTemp.isEmpty { //Si el listado contiene algo...
-                let temp = arrayCatgTemp.filter{ $0.categoria?.localizedCaseInsensitiveContains(categEncript) ?? false} //Filtra los item que tienen el campo categ
-                if !temp.isEmpty {return nil} //Si el resultado contiene algo: SALE! porque la categoria es la misma
-            }
+        let categEncript = AESModel().aesGCMEnc(str: categoria)//Encriptar el texto de la categoria
+        if categEncript.isEmpty {return nil} //No se pudo encriptar el texto de la categoria...SALE!
+        
+        let arrayCatgTemp = getListOfCateg() //Obtiene el listado de categorias
+        if !arrayCatgTemp.isEmpty { //Si el listado contiene algo...
+            let temp = arrayCatgTemp.filter{ $0.categoria?.localizedCaseInsensitiveContains(categEncript) ?? false} //Filtra los item que tienen el campo categ
+            if !temp.isEmpty {return nil} //Si el resultado contiene algo: SALE! porque la categoria es la misma
+        }
         
         //Si la categoria no existe continua...
         
@@ -44,7 +44,7 @@ struct CRUDModel {
             return nil
         }
     }
-
+    
     ///Adiciona una nueva entrada
     /// - Returns - Devuelve true si la operación ha sido exitosa
     func AddEntrada(title : String, entrada : String, categoria : Categorias?, image : String = "", isfav : Bool = true, icono:String = "")->Entrada?{
@@ -103,7 +103,7 @@ struct CRUDModel {
     ///(ojo)Elimina las entradas sin categoria
     /// - Returns - Devuelve true si la operación ha sido exitosa
     func DeleteAllEntradasSinCateg()->Bool{
-        let fetchRequest : NSFetchRequest<Entrada> = Entrada.fetchRequest()
+        //let fetchRequest : NSFetchRequest<Entrada> = Entrada.fetchRequest()
         let arrayForDelete : [Entrada] = getEntradasSinCateg()
         
         if !arrayForDelete.isEmpty { //Si el arreglo contiene elementos a eliminar
@@ -117,13 +117,13 @@ struct CRUDModel {
             return false
         }
     }
-  
+    
     ///(ojo)Elimina todas las entradas para una categoria dada
     /// - Returns - Devuelve true si la operación ha sido exitosa
     func DeleteAllEntradasForCateg(categoria: Categorias)->Bool {
-        let fetchRequest : NSFetchRequest<Entrada> = Entrada.fetchRequest()
-        var arrayForDelete : [Entrada] = getListOfEntradas(categoria: categoria)
-         
+        //let fetchRequest : NSFetchRequest<Entrada> = Entrada.fetchRequest()
+        let arrayForDelete : [Entrada] = getListOfEntradas(categoria: categoria)
+        
         if !arrayForDelete.isEmpty { //Si el arreglo contiene elementos a eliminar
             do{
                 try context.save()
@@ -195,35 +195,68 @@ struct CRUDModel {
     }
     
     ///Modificar una categoría
-    func modifCategoria(categoria: Categorias, categoriaLabel: String?, isfav : Bool?, nota: String?, icono: String?)->Bool{
-        if categoriaLabel != nil {categoria.categoria = AESModel().aesGCMEnc(str: categoriaLabel ?? "")}
-        if isfav != nil { categoria.isfav = isfav ?? false}
-        if nota != nil {categoria.nota = AESModel().aesGCMEnc(str: nota ?? "")}
-        if icono != nil { categoria.icono = icono ?? "tags"}
+    ///Los parámetros que no son nil son actualizados...Pase solamente aquellos parámetros que necesita actualizar
+    func modifCategoria(categoria: Categorias?, categoriaLabel: String?, isfav : Bool?, nota: String?, icono: String?)->Bool{
         
-        do{
-            try context.save()
-            return true
-        }catch{
-            return false
-        }
+        if categoria == nil {return false}
+        
+            if categoriaLabel != nil {categoria!.categoria = AESModel().aesGCMEnc(str: categoriaLabel ?? "")}
+            if isfav != nil { categoria!.isfav = isfav ?? false}
+            if nota != nil {categoria!.nota = AESModel().aesGCMEnc(str: nota ?? "")}
+            if icono != nil { categoria!.icono = icono ?? "tags"}
+            do{
+                try context.save()
+                return true
+            }catch{
+                return false
+            }
+
     }
     
     
     
     ///Modificar una entrada
-    func modifEntrada(entrada: Entrada, title : String?, entradaText : String?, categoria : Categorias?, image : String?, isfav : Bool?, icono:String?)->Bool{
-        if title != nil { entrada.title = AESModel().aesGCMEnc(str: title ?? "")}
-        if entradaText != nil { entrada.entrada = AESModel().aesGCMEnc(str: entradaText ?? "")}
-        if categoria != nil { entrada.categ = categoria}
-        if image != nil {print("Yorjandis hacer la función para almacenar una imagen en formato cadena")}
-        if isfav != nil {entrada.isfav = isfav ?? false}
-        if icono != nil {entrada.icono = icono ?? "documents"}
-        do{
-            try context.save()
-            return true
-        }catch{
+    ///Los parámetros que no son nil son actualizados...Pase solamente aquellos parámetros que necesita actualizar
+    func modifEntrada(entrada: Entrada?, categoria : Categorias?, title : String?, entradaText : String?, image : String?, isfav : Bool?, icono:String?)->Bool{
+        
+        if entrada == nil {return false}
+        
+            if categoria != nil { entrada!.categ = categoria} //Si categoria no es nil es que se ha dado una nueva categoría
+            if title != nil { entrada!.title = AESModel().aesGCMEnc(str: title ?? "")}
+            if entradaText != nil { entrada!.entrada = AESModel().aesGCMEnc(str: entradaText ?? "")}
+            if image != nil {print("Yorjandis hacer la función para almacenar una imagen en formato cadena")}
+            if isfav != nil {entrada!.isfav = isfav ?? false}
+            if icono != nil {entrada!.icono = icono ?? "documents"}
+            do{
+                try context.save()
+                return true
+            }catch{
+                return false
+            }
+
+        
+        
+    }
+    
+    
+    ///Auxiliar: Comprueba si una categoria ya existe en la BD: Por su nombre.
+    /// - Returns - true si existe la categoria, false de otro modo
+    func CategIsExist(categoria : Categorias?)->Bool {
+        if let categ = categoria {
+            let arrayCatgTemp = getListOfCateg() //Obtiene el listado de categorias
+            
+            let result = arrayCatgTemp.filter{ $0 == categ } //Chequea si la categoria existe en el listado
+        
+            if result.count > 0 {
+                return true
+            }else{
+                return false
+            }
+            
+        }else{//Si no existe el objecto se devuelve false.
             return false
         }
+ 
     }
+    
 }

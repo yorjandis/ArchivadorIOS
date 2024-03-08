@@ -31,7 +31,7 @@ struct Home: View {
                 Image("background")
                     .resizable()
                     .edgesIgnoringSafeArea(.all)
-                    .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+                    .frame(maxWidth: .infinity)
             )
             .navigationTitle("Archivador")
             .navigationBarTitleDisplayMode(.inline)
@@ -45,8 +45,10 @@ struct Home: View {
     struct TabButtonBar : View{
             @Binding var listCategorias : [Categorias]
             @Binding var updateHome : Int8
+            @State private var categoria : Categorias? = nil
             @State var showSheetAddCateg = false
             @State var showSheetAddEntrada = false
+            @State var showSheetListEntradas = false
 
                 //Creando La bottom Bar con los item del menu
         var body : some View {
@@ -54,6 +56,7 @@ struct Home: View {
                 Spacer()
                 
                 Menu{
+                    Button("Lista de Entradas"){showSheetListEntradas = true }
                     Button("Nueva Entrada"){showSheetAddEntrada = true}
                     Button("Nueva Categoría"){showSheetAddCateg = true}
                     
@@ -70,12 +73,15 @@ struct Home: View {
                 
             }
             .sheet(isPresented: $showSheetAddCateg){
-                AddCategView(updateHome: $updateHome)
+                AddCategView(updateHome: $updateHome, categoria: $categoria)
                     .presentationDetents([.medium])
                     .presentationDragIndicator(.hidden)
             }
             .sheet(isPresented: $showSheetAddEntrada) {
-                AddEntradaView(listCateg: $listCategorias, updateHome: $updateHome)
+                AddEntradaView(listCateg: $listCategorias, updateHome: $updateHome, refresListEntradas: .constant(false))
+            }
+            .sheet(isPresented: $showSheetListEntradas) {
+                ListEntradasView(updateHome: $updateHome)
             }
         }
 
@@ -86,19 +92,25 @@ struct Home: View {
     struct ListCategHome : View {
             @Binding var listCategoria : [Categorias]
             @Binding var updateHome : Int8  //Permite actualizar toda la informacion de categorias
-            @State var categoriaTemp : Categorias?
+            
             @FocusState var focus : Bool
-            @State var textFielSearch = ""
-            @State var ShowtextFielSearch = false
+            @State  var textFielSearch = ""
+            @State  var ShowtextFielSearch = false
             
-            @State var ShowSheetAddNewEntrada = false
-            @State var CategoriaParaAdicionar : Categorias? //Almacena una categoria para adicionarle entrada
-            @State var CategoriaParaEliminar : Categorias? //Almacena una categoria para eliminarla
-            @State var selectionNavigation = false
-            @State  var showConfirmDialogDeleteNota = false
-            @State  var ShowSheetListEntradas = false
+            @State private var ShowSheetAddNewEntrada = false
+        
+            @State var categoriaTemp            : Categorias? //Almacena una categoria para operaciones
+            @State var CategoriaParaAdicionar   : Categorias? //Almacena una categoria para adicionarle entrada
+            @State var CategoriaParaEliminar    : Categorias? //Almacena una categoria para eliminarla
+            @State var CategoriaParaModificar   : Categorias? //Almacena una categoria para eliminarla
+        
+        
+            @State   var selectionNavigation = false
+            @State   var showConfirmDialogDeleteNota = false
+            @State   var ShowSheetListEntradas = false
+            @State   var ShowSheetModifCateg = false
             
-             var filtered : [Categorias] {
+              var filtered : [Categorias] {
                 if textFielSearch.isEmpty {return listCategoria}
                 return listCategoria.filter{AESModel().aesGCMDec(strEnc: $0.categoria ?? "").localizedStandardContains(textFielSearch) }
             }
@@ -119,7 +131,7 @@ struct Home: View {
                         }
                     }else{
                         NavigationLink{
-                            AddCategView(updateHome: $updateHome)
+                            AddCategView(updateHome: $updateHome, categoria: $categoriaTemp) //Yorj: $categoriaTemp no tiene aqui ningun significado
                         }label: {
                             Label("Adicione una categoría", systemImage: "folder.badge.plus")
                                 .foregroundColor(.black).bold().fontDesign(.serif)
@@ -154,10 +166,14 @@ struct Home: View {
                                             Text("\(CRUDModel().getListOfEntradas(categoria: categ).count)").fontDesign(.serif).bold().foregroundStyle(.black)
                                         }
                                         .onTapGesture {
-                                            CategoriaParaAdicionar = categ
+                                            self.CategoriaParaAdicionar = categ
+                                            
                                         }
                                     VStack {
                                         Menu{
+                                            Button("Modificar Categoría"){
+                                                self.CategoriaParaModificar = categ
+                                            }
                                             Button("Eliminar Categoría"){
                                                 CategoriaParaEliminar = categ
                                                 showConfirmDialogDeleteNota = true
@@ -206,15 +222,18 @@ struct Home: View {
                     }message: {
                         Text("Al eliminar una categoría las entradas asociadas no se eliminan. Utilice el filtro en la lista de entradas para asignarle una nueva categoría")
                     }
-                    .sheet(item: $CategoriaParaAdicionar){ categ in
-                        AddEntradaView(listCateg: $listCategoria, updateHome: $updateHome, selectedCateg: categ)
+                    .sheet(item: self.$CategoriaParaAdicionar){ categ in
+                        AddEntradaView(listCateg: $listCategoria, updateHome: $updateHome, refresListEntradas: .constant(false), selectedCateg: categ)
                     }
                     .sheet(isPresented: $ShowSheetListEntradas) {
                         ListEntradasView(updateHome: self.$updateHome, categoria: self.categoriaTemp)
                     }
+                    .sheet(item: $CategoriaParaModificar) { categ in
+                        AddCategView(updateHome: self.$updateHome, categoria: $categoriaTemp, categoriaForModif: categ)
+                    }
                 }
             }
-                
+        
             }
     
     

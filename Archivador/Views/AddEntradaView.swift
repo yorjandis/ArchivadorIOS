@@ -13,174 +13,179 @@ struct AddEntradaView: View {
     @Environment(\.dismiss) var dimiss
     @Binding var listCateg : [Categorias]
     @Binding var updateHome : Int8 //Permite actualizar la home()
+    @Binding var refresListEntradas: Bool //Permite actualizar la lista de entrada
     @State var selectedCateg : Categorias? //Si viene de Home() tendrá una categoria
-    @State var textFieldTitulo = ""
-    @State var textFieldEntrada = ""
-    @State var icono : String = "apple"
-    @State var fav = false
-    @State var colorText : Color = .primary
-    @State var showSheetAddCateg = false
+    @State var entradaForModif : Entrada? = nil //Si se da es para modificar la entrada
+    @State private var textFieldTitulo = ""
+    @State private var textFieldEntrada = ""
+    @State private var icono : String = "apple"
+    @State private var fav = false
+    @State private var colorText : Color = .primary
+    @State private var showSheetAddCateg = false
+    @State private var showSheetSelectIcono = false
     
     
     
     var body: some View {
         NavigationStack {
-            VStack{
-                Form{
-                    Section("Categoría de la Entrada"){
-                        HStack{
-                                HStack{
-                                    //Construir un menu para escoger las categorias
-                                    if !listCateg.isEmpty {
-                                        Menu{
-                                            ForEach(listCateg){ categ in
-                                                Button{
-                                                    self.selectedCateg = categ
-                                                }label: {
-                                                    Label {
-                                                        Text(AESModel().aesGCMDec(strEnc: categ.categoria ?? ""))
-                                                    } icon: {
-                                                        Image(path: categ.icono ?? "tags").imageIcono()
-                                                    }
-                                                    
-                                                }
-                                            }
-                                        }label: {
-                                            if self.selectedCateg != nil {
-                                                Label {
-                                                    Text( AESModel().aesGCMDec(strEnc: self.selectedCateg?.categoria ?? ""))
-                                                } icon: {
-                                                    Image(path: self.selectedCateg?.icono ?? "tags").imageIcono()
-                                                }
-                                                
-                                            }else{
-                                                Text("Seleccione Categoría...")
-                                            }
-                                            
-                                        }
-                                    }
-                                    else{ //Si la lista de categoria está vacia: hay que crear nueva Categoría
-                                        
-                                        NavigationLink{
-                                            AddCategView(updateHome: $updateHome)
-                                        }label: {
-                                            Label("Crear Nueva Categoría", systemImage: "folder.badge.plus")
+            VStack(spacing: 30){
+                //Categoría
+                VStack{
+                    HStack{
+                        //Construir un menu para escoger las categorias
+                        if !listCateg.isEmpty {
+                            Menu{
+                                ForEach(listCateg){ categ in
+                                    Button{
+                                        self.selectedCateg = categ
+                                    }label: {
+                                        Label {
+                                            Text(AESModel().aesGCMDec(strEnc: categ.categoria ?? ""))
+                                        } icon: {
+                                                Image(path: categ.icono ?? "tags").imageIcono()
                                         }
                                         
                                     }
-                                   
+                                }
+                            }label: {
+                                if self.selectedCateg != nil {
+                                    Label {
+                                            Text( "\(AESModel().aesGCMDec(strEnc: self.selectedCateg?.categoria ?? ""))...")
+
+                                    } icon: {
+                                        Image(path: self.selectedCateg?.icono ?? "tags").imageIcono()
+                                    }
+                                    
+                                }else{
+                                    Text("Seleccione Categoría...")
                                 }
                                 
-                                Spacer()
-                                if !self.listCateg.isEmpty {
-                                    Menu{
-                                        Button{
-                                            showSheetAddCateg = true
-                                        }label: {
-                                            Label {
-                                                Text("Nueva Categoría")
-                                            } icon: {
-                                                Image(systemName: "plus")
-                                            }
-                                            
-                                            
-                                        }
-                                    }label: {
-                                        Image(systemName: "ellipsis")
-                                            .frame(width: 50, height: 45)
-                                    }
-                                    .padding(.top, 10)
-                                }
-    
+                            }.frame(maxWidth: .infinity, alignment: .center)
                         }
-                        .task {
-                            self.listCateg = CRUDModel().getListOfCateg()
-                        }
-                    }
-                    
-                    Section("Título de la Entrada"){
-                        VStack(alignment: .leading){
-                            TextField("Nuevo título", text: $textFieldTitulo, axis: .vertical)
-                                .onChange(of: textFieldTitulo) {
-                                    if !textFieldTitulo.isEmpty {colorText = .primary}
-                                }
+                        else{ //Si la lista de categoria está vacia: hay que crear nueva Categoría
+                            NavigationLink{
+                                AddCategView(updateHome: $updateHome, categoria: $selectedCateg)
+                            }label: {
+                                Label("Crear Nueva Categoría", systemImage: "folder.badge.plus")
+                            }.frame(maxWidth: .infinity, alignment: .center)
                             
-                            Text("\(textFieldTitulo.isEmpty ? "⚠️" : "✅") Título que tendrá la categoría")
-                                .font(.footnote)
-                                .padding(.top, 5)
-                                .foregroundColor(textFieldTitulo.isEmpty ? .red : .primary)
                         }
-                        
-                    }
-                    
-                    Section("Icono"){
-                        HStack(spacing: 25){
-                            Image(path: self.icono).imageIcono()
-                            
-                            NavigationLink("Seleccionar icono"){
-                                ListOfImagesView(image: $icono)
-                            }
-                        }
-                        
-                        
-                    }
-                    
-                    Section("Texto de la entrada"){
-                        VStack(alignment: .leading){
-                            TextField("Contenido de la entrada", text: $textFieldEntrada, axis: .vertical)
-                                .onChange(of: textFieldEntrada) {
-                                    if !textFieldEntrada.isEmpty {colorText = .primary}
+                        Spacer()
+                        //Mostrando el menu de tres puntos si existe categorias a seleccionar
+                        if !self.listCateg.isEmpty {
+                                Button{
+                                    showSheetAddCateg = true
+                                }label: {
+                                    Image(systemName: "plus").foregroundColor(.black)
+                                        .frame(width: 20)
+                                        .background(.orange)
+                                        .clipShape(RoundedRectangle(cornerRadius: 20))
+                                        .padding(.horizontal)
                                 }
-                            
-                            Text("\(textFieldEntrada.isEmpty ? "⚠️" : "✅") Contenido útil de la entrada")
-                                .font(.footnote)
-                                .padding(.top, 5)
-                                .foregroundColor(textFieldEntrada.isEmpty ? .red : .primary)
                         }
                         
                     }
-                    
-                    
-                    Section("Favorito"){
-                        VStack(alignment: .leading){
-                            Toggle("Favorito", isOn: $fav)
-                            Text("Marque la nueva categoría como favorito")
-                                .font(.footnote)
-                                .padding(.top, 5)
-                        }
-                        
-                    }
-                    
-                    
                 }
-                .navigationTitle("Crear nueva Entrada")
-                .navigationBarTitleDisplayMode(.inline)
+                .task {
+                    self.listCateg = CRUDModel().getListOfCateg()
+                }
+
+                    
+                //Título, icono y favorito
+                VStack {
+                    HStack(spacing: 10){
+                        Button{
+                            showSheetSelectIcono = true
+                        }label: {
+                            Image(path: self.icono).imageIcono()
+                        }
+                        TextField("⚠️ Nuevo título", text: $textFieldTitulo, axis: .vertical)
+                        Toggle("Favorito", isOn: $fav).frame(maxWidth: 120)
+                    }.padding(.horizontal, 5)
+                }
+
                 
-                VStack() {
-                    Button("Guardar"){
-                        if let categ = self.selectedCateg {
-                            if textFieldTitulo.isEmpty {return}
-                            if textFieldEntrada.isEmpty {return}
-                            
-                            if CRUDModel().AddEntrada(title: textFieldTitulo, entrada: textFieldEntrada, categoria: categ, image: "", isfav: self.fav, icono: self.icono) != nil{
-                                self.updateHome += 1 //Actualizando home()
-                                dimiss()
-                            }else{
-                                print("Error al guardar la entrada")
+                //Texto de la entrada
+                VStack{
+                    TextField("⚠️ Texto de la entrada", text: $textFieldEntrada, axis: .vertical)
+                        .font(.title)
+                        .padding(.horizontal)
+                        
+                }
+
+                Spacer()
+                
+                Divider()
+                
+                //Boton
+                HStack{
+                    Spacer()
+                    Button(entradaForModif == nil ? "Guardar" : "Actualizar"){
+                        
+                        if entradaForModif == nil { //Guardar...Crear nueva entrada
+                            if let categ = self.selectedCateg {
+                                if textFieldTitulo.isEmpty {return}
+                                if textFieldEntrada.isEmpty {return}
+                                
+                                if CRUDModel().AddEntrada(title: textFieldTitulo, entrada: textFieldEntrada, categoria: categ, image: "", isfav: self.fav, icono: self.icono) != nil{
+                                    self.updateHome += 1 //Actualizando home()
+                                    dimiss()
+                                }else{
+                                    print("Error al guardar la entrada")
+                                }
                             }
+                        }else{ //Actualizar entrada
+                           if  CRUDModel().modifEntrada(entrada: entradaForModif,
+                                categoria: self.selectedCateg,
+                                title: self.textFieldTitulo,
+                                entradaText: self.textFieldEntrada,
+                                image: "",
+                                isfav: self.fav,
+                                icono: self.icono){
+                               
+                               print("Se ha actualizado la entrada")
+                               self.updateHome += 1 //Actualizando home()
+                               self.refresListEntradas.toggle()//Actualizando la lista de Entradas
+                               dimiss()
+                           }else{
+                               print("Ha ocurrido un error al actualizar la entrada")
+                           }
                             
                         }
+                        
+                        
                         
                     }
                     .buttonStyle(.bordered)
+                    .padding(.horizontal)
+                    
                 }
-                .padding(.bottom, 50)
+                
             }
+            .navigationTitle(entradaForModif == nil ? "Crear nueva Entrada" : "Actualizar Entrada")
+            .navigationBarTitleDisplayMode(.inline)
             .sheet(isPresented: $showSheetAddCateg, content: {
-                AddCategView(updateHome: $updateHome)
+                AddCategView(updateHome: $updateHome, categoria: self.$selectedCateg)
+                    .presentationDetents([.medium])
+                    .presentationDragIndicator(.hidden)
             })
+            .sheet(isPresented: $showSheetSelectIcono) {
+                ListOfImagesView(image: $icono)
+                    .presentationDetents([.medium])
+                    .presentationDragIndicator(.hidden)
+            }
+            .task { //Para modificar la entrada
+                if let entrada = self.entradaForModif {
+                    self.selectedCateg = entrada.categ
+                    self.textFieldTitulo =  AESModel().aesGCMDec(strEnc: entrada.title ?? "")
+                    self.textFieldEntrada = AESModel().aesGCMDec(strEnc: entrada.entrada ?? "")
+                    self.icono = entrada.icono ?? ""
+                    self.fav = entrada.isfav
+                    
+                }
+            }
             
-        }
+        }.preferredColorScheme(.dark)
     }
     
 }
@@ -192,5 +197,5 @@ struct AddEntradaView: View {
 
 
 #Preview {
-    AddEntradaView(listCateg: .constant([Categorias]()), updateHome: .constant(1))
+    AddEntradaView(listCateg: .constant([Categorias]()), updateHome: .constant(1), refresListEntradas: .constant(true))
 }
