@@ -88,7 +88,7 @@ struct ListEntradasView: View {
                                         .font(.system(size: 25))
                                 }
                             }
-                            
+                            .padding(.leading,self.categoria == nil ? 170 : 130)
                             Spacer()
                             
                             Button{
@@ -103,7 +103,7 @@ struct ListEntradasView: View {
                         
                             
                     }
-                    .padding(.horizontal, 30)
+                    .padding(.horizontal, 10)
                     .padding(.top, 8)
                     .onAppear{
                             self.refresListEntradas.toggle()
@@ -125,8 +125,9 @@ struct ListEntradasView: View {
                             self.listEntradas = self.filtered
                         }
                     }else{
-                        NavigationLink{
-                            AddEntradaView(listCateg: $listCategorias, updateHome: $updateHome, refresListEntradas: self.$refresListEntradas)
+                        Button{
+                            showSheetAddEntrada = true
+                           // AddEntradaView(listCateg: $listCategorias, updateHome: $updateHome, refresListEntradas: self.$refresListEntradas)
                         }label: {
                             Label("Adicione una entrada", systemImage: "folder.badge.plus")
                                 .foregroundColor(.black).bold().fontDesign(.serif)
@@ -204,6 +205,11 @@ struct EntradaViewItem : View {
     
     @State private var expandContent = false
     @State private var showConfirmDialogDelete = false
+    
+    //Devuele la lista de imágines de una entrada como un arreglo
+    private var getListOfImages : [UIImage]{
+        return []
+    }
     
     var body: some View {
         VStack{
@@ -293,7 +299,25 @@ struct EntradaViewItem : View {
             if self.expandContent {
                 HTMLView(txt: AESModel().aesGCMDec(strEnc: entrada.entrada ?? ""))
                     .frame(height: 250)
+                
+                //Mostrando Galeria de imagines de la entrada
+                if self.getListOfImages.count > 0 {
+                    ScrollView(.horizontal){
+                        HStack(spacing: 30) {
+                            ForEach (self.getListOfImages, id: \.self){i in
+                                Image(uiImage: i).imageIcono()
+                                    .onTapGesture {
+                                        //Mostrar la imagen a tamaño completo
+                                    }
+                            }
+                        }.padding(.horizontal)
+                    }
+                }
+                
+
             }
+            
+
             
             
             
@@ -319,8 +343,9 @@ struct EntradaViewItem : View {
         }message: {
             Text("¿Seguro que desea eliminar la entrada? \n Esta acción no puede deshacerse")
         }
-        .sheet(item: self.$entradaForModif) { entrada2 in
+        .sheet(item: self.$entradaForModif) { entrada2 in //Modificar la entrada: hay que dar el parámetro entradaForModif
             AddEntradaView(listCateg: self.$listCategorias, updateHome: $updateHome, refresListEntradas: $refresListEntradas, entradaForModif: entrada2 )
+                
         }
         .background(Color("yor"))
         .foregroundStyle(.black)
@@ -328,8 +353,6 @@ struct EntradaViewItem : View {
         .padding(.horizontal,10)
     }
 }
-
-
 
 
 

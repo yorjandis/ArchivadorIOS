@@ -129,6 +129,16 @@
 		1931B1B42B8855EF00A51EF6 /* AddCategView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1931B1B32B8855EF00A51EF6 /* AddCategView.swift */; };
 		1931B1B62B885B7D00A51EF6 /* AddEntradaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1931B1B52B885B7D00A51EF6 /* AddEntradaView.swift */; };
 		1931B1B82B88BBC300A51EF6 /* ListEntradasView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1931B1B72B88BBC300A51EF6 /* ListEntradasView.swift */; };
+		19941B422B9BBAE800CDA9F7 /* ImageToStringModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19941B412B9BBAE700CDA9F7 /* ImageToStringModel.swift */; };
+		19941B452B9BC37400CDA9F7 /* ImageCaptureFromCameraModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19941B442B9BC37400CDA9F7 /* ImageCaptureFromCameraModel.swift */; };
+		19941B472B9BD34700CDA9F7 /* GetImageFromGalleryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19941B462B9BD34700CDA9F7 /* GetImageFromGalleryView.swift */; };
+		19941B492B9BD6AC00CDA9F7 /* GetImageFromCameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19941B482B9BD6AC00CDA9F7 /* GetImageFromCameraView.swift */; };
+		19941B4B2B9C199000CDA9F7 /* OcrView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19941B4A2B9C199000CDA9F7 /* OcrView.swift */; };
+		19EC67032B9FBB4100E5DE92 /* PasswordGenerateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19EC67022B9FBB4100E5DE92 /* PasswordGenerateView.swift */; };
+		19EC67062B9FCA1100E5DE92 /* GenerateQRView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19EC67052B9FCA1100E5DE92 /* GenerateQRView.swift */; };
+		19EC67082B9FCF2500E5DE92 /* QRModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19EC67072B9FCF2500E5DE92 /* QRModel.swift */; };
+		19EC670B2B9FDC9400E5DE92 /* QRReadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19EC670A2B9FDC9400E5DE92 /* QRReadView.swift */; };
+		19EC67152BA3C18B00E5DE92 /* GeneratePassUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19EC67142BA3C18B00E5DE92 /* GeneratePassUtils.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -280,6 +290,16 @@
 		1931B1B32B8855EF00A51EF6 /* AddCategView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCategView.swift; sourceTree = "<group>"; };
 		1931B1B52B885B7D00A51EF6 /* AddEntradaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddEntradaView.swift; sourceTree = "<group>"; };
 		1931B1B72B88BBC300A51EF6 /* ListEntradasView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListEntradasView.swift; sourceTree = "<group>"; };
+		19941B412B9BBAE700CDA9F7 /* ImageToStringModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageToStringModel.swift; sourceTree = "<group>"; };
+		19941B442B9BC37400CDA9F7 /* ImageCaptureFromCameraModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCaptureFromCameraModel.swift; sourceTree = "<group>"; };
+		19941B462B9BD34700CDA9F7 /* GetImageFromGalleryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetImageFromGalleryView.swift; sourceTree = "<group>"; };
+		19941B482B9BD6AC00CDA9F7 /* GetImageFromCameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetImageFromCameraView.swift; sourceTree = "<group>"; };
+		19941B4A2B9C199000CDA9F7 /* OcrView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OcrView.swift; sourceTree = "<group>"; };
+		19EC67022B9FBB4100E5DE92 /* PasswordGenerateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordGenerateView.swift; sourceTree = "<group>"; };
+		19EC67052B9FCA1100E5DE92 /* GenerateQRView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenerateQRView.swift; sourceTree = "<group>"; };
+		19EC67072B9FCF2500E5DE92 /* QRModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRModel.swift; sourceTree = "<group>"; };
+		19EC670A2B9FDC9400E5DE92 /* QRReadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRReadView.swift; sourceTree = "<group>"; };
+		19EC67142BA3C18B00E5DE92 /* GeneratePassUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneratePassUtils.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -437,12 +457,12 @@
 		1931B1772B86E16C00A51EF6 /* Archivador */ = {
 			isa = PBXGroup;
 			children = (
-				190160182B89732B002A51E0 /* Staff */,
-				1931B18D2B86E40600A51EF6 /* Model */,
-				1931B1B22B8855DA00A51EF6 /* Views */,
 				1931B1782B86E16C00A51EF6 /* ArchivadorApp.swift */,
 				1931B17A2B86E16C00A51EF6 /* ContentView.swift */,
 				1931B1A82B86E4FA00A51EF6 /* Home.swift */,
+				190160182B89732B002A51E0 /* Staff */,
+				1931B18D2B86E40600A51EF6 /* Model */,
+				1931B1B22B8855DA00A51EF6 /* Views */,
 				1931B17C2B86E16D00A51EF6 /* Assets.xcassets */,
 				1931B1862B86E16D00A51EF6 /* Archivador.entitlements */,
 				1931B1872B86E16D00A51EF6 /* Info.plist */,
@@ -463,9 +483,13 @@
 		1931B18D2B86E40600A51EF6 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				19EC67102BA1096D00E5DE92 /* OCRMod */,
+				19EC67092B9FD9E500E5DE92 /* QRMod */,
+				19941B432B9BC34500CDA9F7 /* Image */,
 				1931B18E2B86E41100A51EF6 /* CoreData */,
 				1931B1902B86E46B00A51EF6 /* Utils.swift */,
 				19086B6C2B8FEE0C00446F4C /* EntradaContentView.swift */,
+				19EC67142BA3C18B00E5DE92 /* GeneratePassUtils.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -518,13 +542,75 @@
 		1931B1B22B8855DA00A51EF6 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				1931B1B32B8855EF00A51EF6 /* AddCategView.swift */,
-				1931B1B52B885B7D00A51EF6 /* AddEntradaView.swift */,
-				1931B1B72B88BBC300A51EF6 /* ListEntradasView.swift */,
+				19EC67132BA123A000E5DE92 /* OCR */,
+				19EC67122BA121C400E5DE92 /* Entrada */,
+				19EC67112BA121AD00E5DE92 /* Categ */,
+				19EC67042B9FC9F300E5DE92 /* QR */,
 				190160EC2B897FA6002A51E0 /* ListOfImagesView.swift */,
 				19086B6A2B8FD65000446F4C /* testView.swift */,
+				19941B462B9BD34700CDA9F7 /* GetImageFromGalleryView.swift */,
+				19941B482B9BD6AC00CDA9F7 /* GetImageFromCameraView.swift */,
+				19EC67022B9FBB4100E5DE92 /* PasswordGenerateView.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		19941B432B9BC34500CDA9F7 /* Image */ = {
+			isa = PBXGroup;
+			children = (
+				19941B442B9BC37400CDA9F7 /* ImageCaptureFromCameraModel.swift */,
+			);
+			path = Image;
+			sourceTree = "<group>";
+		};
+		19EC67042B9FC9F300E5DE92 /* QR */ = {
+			isa = PBXGroup;
+			children = (
+				19EC67052B9FCA1100E5DE92 /* GenerateQRView.swift */,
+				19EC670A2B9FDC9400E5DE92 /* QRReadView.swift */,
+			);
+			path = QR;
+			sourceTree = "<group>";
+		};
+		19EC67092B9FD9E500E5DE92 /* QRMod */ = {
+			isa = PBXGroup;
+			children = (
+				19EC67072B9FCF2500E5DE92 /* QRModel.swift */,
+			);
+			path = QRMod;
+			sourceTree = "<group>";
+		};
+		19EC67102BA1096D00E5DE92 /* OCRMod */ = {
+			isa = PBXGroup;
+			children = (
+				19941B412B9BBAE700CDA9F7 /* ImageToStringModel.swift */,
+			);
+			path = OCRMod;
+			sourceTree = "<group>";
+		};
+		19EC67112BA121AD00E5DE92 /* Categ */ = {
+			isa = PBXGroup;
+			children = (
+				1931B1B32B8855EF00A51EF6 /* AddCategView.swift */,
+			);
+			path = Categ;
+			sourceTree = "<group>";
+		};
+		19EC67122BA121C400E5DE92 /* Entrada */ = {
+			isa = PBXGroup;
+			children = (
+				1931B1B72B88BBC300A51EF6 /* ListEntradasView.swift */,
+				1931B1B52B885B7D00A51EF6 /* AddEntradaView.swift */,
+			);
+			path = Entrada;
+			sourceTree = "<group>";
+		};
+		19EC67132BA123A000E5DE92 /* OCR */ = {
+			isa = PBXGroup;
+			children = (
+				19941B4A2B9C199000CDA9F7 /* OcrView.swift */,
+			);
+			path = OCR;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -735,19 +821,29 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				19941B422B9BBAE800CDA9F7 /* ImageToStringModel.swift in Sources */,
 				190160ED2B897FA6002A51E0 /* ListOfImagesView.swift in Sources */,
+				19EC67082B9FCF2500E5DE92 /* QRModel.swift in Sources */,
 				1931B1B62B885B7D00A51EF6 /* AddEntradaView.swift in Sources */,
+				19EC670B2B9FDC9400E5DE92 /* QRReadView.swift in Sources */,
+				19941B452B9BC37400CDA9F7 /* ImageCaptureFromCameraModel.swift in Sources */,
 				1931B1912B86E46B00A51EF6 /* Utils.swift in Sources */,
 				1931B1B12B881CC300A51EF6 /* CRUDModel.swift in Sources */,
 				1931B1822B86E16D00A51EF6 /* Persistence.swift in Sources */,
 				1931B1B82B88BBC300A51EF6 /* ListEntradasView.swift in Sources */,
 				1931B17B2B86E16C00A51EF6 /* ContentView.swift in Sources */,
 				1931B1852B86E16D00A51EF6 /* Archivador.xcdatamodeld in Sources */,
+				19941B4B2B9C199000CDA9F7 /* OcrView.swift in Sources */,
+				19EC67152BA3C18B00E5DE92 /* GeneratePassUtils.swift in Sources */,
 				19086B6D2B8FEE0C00446F4C /* EntradaContentView.swift in Sources */,
 				1931B1B42B8855EF00A51EF6 /* AddCategView.swift in Sources */,
+				19941B492B9BD6AC00CDA9F7 /* GetImageFromCameraView.swift in Sources */,
+				19EC67032B9FBB4100E5DE92 /* PasswordGenerateView.swift in Sources */,
 				1931B1A92B86E4FA00A51EF6 /* Home.swift in Sources */,
 				1931B1792B86E16C00A51EF6 /* ArchivadorApp.swift in Sources */,
 				1931B1AC2B87D36100A51EF6 /* AESModel.swift in Sources */,
+				19941B472B9BD34700CDA9F7 /* GetImageFromGalleryView.swift in Sources */,
+				19EC67062B9FCA1100E5DE92 /* GenerateQRView.swift in Sources */,
 				19086B6B2B8FD65000446F4C /* testView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -905,6 +1001,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Archivador/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "Se necesita acceder a la cámara para tomar una foto";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -937,6 +1034,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Archivador/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "Se necesita acceder a la cámara para tomar una foto";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

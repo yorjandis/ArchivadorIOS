@@ -47,7 +47,7 @@ struct CRUDModel {
     
     ///Adiciona una nueva entrada
     /// - Returns - Devuelve true si la operación ha sido exitosa
-    func AddEntrada(title : String, entrada : String, categoria : Categorias?, image : String = "", isfav : Bool = true, icono:String = "")->Entrada?{
+    func AddEntrada(title : String, entrada : String, categoria : Categorias?, image : String, isfav : Bool = true, icono:String = "")->Entrada?{
         let row : Entrada = Entrada(context: context)
         
         //Una entrada debe pertenecer a una categoria
@@ -56,7 +56,7 @@ struct CRUDModel {
             row.title = AESModel().aesGCMEnc(str: title)
             row.categ = Categoria
             row.entrada = AESModel().aesGCMEnc(str: entrada)
-            row.image = AESModel().aesGCMEnc(str: image) //Imagen en formato String64 para guardar
+            row.image =  image//Imagen en formato String64 para guardar
             row.isfav = isfav
             row.icono = icono
             
@@ -217,6 +217,7 @@ struct CRUDModel {
     
     ///Modificar una entrada
     ///Los parámetros que no son nil son actualizados...Pase solamente aquellos parámetros que necesita actualizar
+    ///- Returns - true si la operación ha sido exitosa
     func modifEntrada(entrada: Entrada?, categoria : Categorias?, title : String?, entradaText : String?, image : String?, isfav : Bool?, icono:String?)->Bool{
         
         if entrada == nil {return false}

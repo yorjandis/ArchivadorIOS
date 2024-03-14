@@ -59,6 +59,9 @@ struct Home: View {
                     Button("Lista de Entradas"){showSheetListEntradas = true }
                     Button("Nueva Entrada"){showSheetAddEntrada = true}
                     Button("Nueva Categoría"){showSheetAddCateg = true}
+                    NavigationLink("Prueba"){
+                        testView()
+                    }
                     
                 }label: {
                     Circle()
@@ -79,6 +82,8 @@ struct Home: View {
             }
             .sheet(isPresented: $showSheetAddEntrada) {
                 AddEntradaView(listCateg: $listCategorias, updateHome: $updateHome, refresListEntradas: .constant(false))
+                    .presentationDetents([.medium])
+                    .presentationDragIndicator(.hidden)
             }
             .sheet(isPresented: $showSheetListEntradas) {
                 ListEntradasView(updateHome: $updateHome)
@@ -224,12 +229,18 @@ struct Home: View {
                     }
                     .sheet(item: self.$CategoriaParaAdicionar){ categ in
                         AddEntradaView(listCateg: $listCategoria, updateHome: $updateHome, refresListEntradas: .constant(false), selectedCateg: categ)
+                        
                     }
                     .sheet(isPresented: $ShowSheetListEntradas) {
                         ListEntradasView(updateHome: self.$updateHome, categoria: self.categoriaTemp)
+                        
+                            
                     }
                     .sheet(item: $CategoriaParaModificar) { categ in
                         AddCategView(updateHome: self.$updateHome, categoria: $categoriaTemp, categoriaForModif: categ)
+                        
+                            .presentationDetents([.medium])
+                            .presentationDragIndicator(.hidden)
                     }
                 }
             }

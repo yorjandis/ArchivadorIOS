@@ -23,12 +23,11 @@ struct AddEntradaView: View {
     @State private var colorText : Color = .primary
     @State private var showSheetAddCateg = false
     @State private var showSheetSelectIcono = false
-    
-    
+
     
     var body: some View {
         NavigationStack {
-            VStack(spacing: 30){
+            VStack(spacing:30){
                 //Categoría
                 VStack{
                     HStack{
@@ -47,6 +46,10 @@ struct AddEntradaView: View {
                                         
                                     }
                                 }
+                                //Opción de crear nueva categoria
+                                Button("Crear Nueva categoría..."){
+                                    showSheetAddCateg = true
+                                }
                             }label: {
                                 if self.selectedCateg != nil {
                                     Label {
@@ -61,28 +64,16 @@ struct AddEntradaView: View {
                                 }
                                 
                             }.frame(maxWidth: .infinity, alignment: .center)
-                        }
-                        else{ //Si la lista de categoria está vacia: hay que crear nueva Categoría
+                        }else{ //Si la lista de categoria está vacia: hay que crear nueva Categoría
                             NavigationLink{
                                 AddCategView(updateHome: $updateHome, categoria: $selectedCateg)
                             }label: {
                                 Label("Crear Nueva Categoría", systemImage: "folder.badge.plus")
-                            }.frame(maxWidth: .infinity, alignment: .center)
+                            }.frame(maxWidth: .infinity, alignment: .center).padding(.top, 15)
                             
                         }
                         Spacer()
-                        //Mostrando el menu de tres puntos si existe categorias a seleccionar
-                        if !self.listCateg.isEmpty {
-                                Button{
-                                    showSheetAddCateg = true
-                                }label: {
-                                    Image(systemName: "plus").foregroundColor(.black)
-                                        .frame(width: 20)
-                                        .background(.orange)
-                                        .clipShape(RoundedRectangle(cornerRadius: 20))
-                                        .padding(.horizontal)
-                                }
-                        }
+
                         
                     }
                 }
@@ -110,60 +101,81 @@ struct AddEntradaView: View {
                     TextField("⚠️ Texto de la entrada", text: $textFieldEntrada, axis: .vertical)
                         .font(.title)
                         .padding(.horizontal)
-                        
                 }
+                
 
                 Spacer()
                 
-                Divider()
-                
-                //Boton
-                HStack{
-                    Spacer()
-                    Button(entradaForModif == nil ? "Guardar" : "Actualizar"){
-                        
-                        if entradaForModif == nil { //Guardar...Crear nueva entrada
-                            if let categ = self.selectedCateg {
-                                if textFieldTitulo.isEmpty {return}
-                                if textFieldEntrada.isEmpty {return}
-                                
-                                if CRUDModel().AddEntrada(title: textFieldTitulo, entrada: textFieldEntrada, categoria: categ, image: "", isfav: self.fav, icono: self.icono) != nil{
-                                    self.updateHome += 1 //Actualizando home()
-                                    dimiss()
-                                }else{
-                                    print("Error al guardar la entrada")
-                                }
-                            }
-                        }else{ //Actualizar entrada
-                           if  CRUDModel().modifEntrada(entrada: entradaForModif,
-                                categoria: self.selectedCateg,
-                                title: self.textFieldTitulo,
-                                entradaText: self.textFieldEntrada,
-                                image: "",
-                                isfav: self.fav,
-                                icono: self.icono){
-                               
-                               print("Se ha actualizado la entrada")
-                               self.updateHome += 1 //Actualizando home()
-                               self.refresListEntradas.toggle()//Actualizando la lista de Entradas
-                               dimiss()
-                           }else{
-                               print("Ha ocurrido un error al actualizar la entrada")
-                           }
+            }
+            .foregroundStyle(.white)
+            .navigationTitle(entradaForModif == nil ? "Crear nueva Entrada" : "Actualizar Entrada")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar{
+                Button(entradaForModif == nil ? "Guardar" : "Actualizar"){
+                    
+                    if entradaForModif == nil { //Guardar...Crear nueva entrada
+                        if let categ = self.selectedCateg {
+                            if textFieldTitulo.isEmpty {return}
+                            if textFieldEntrada.isEmpty {return}
                             
+                            if CRUDModel().AddEntrada(title: textFieldTitulo, 
+                                                      entrada: textFieldEntrada,
+                                                      categoria: categ,
+                                                      image: "",
+                                                      isfav: self.fav,
+                                                      icono: self.icono) != nil{
+                                self.updateHome += 1 //Actualizando home()
+                                self.refresListEntradas.toggle()//Actualizando la lista de Entradas
+                                dimiss()
+                            }else{
+                                print("Error al guardar la entrada")
+                            }
+                        }
+                    }else{ //Actualizar entrada
+                        if  CRUDModel().modifEntrada(entrada: entradaForModif,
+                                                     categoria: self.selectedCateg,
+                                                     title: self.textFieldTitulo,
+                                                     entradaText: self.textFieldEntrada,
+                                                     image: "",
+                                                     isfav: self.fav,
+                                                     icono: self.icono){
+                            
+                            print("Se ha actualizado la entrada")
+                            self.updateHome += 1 //Actualizando home()
+                            self.refresListEntradas.toggle()//Actualizando la lista de Entradas
+                            dimiss()
+                        }else{
+                            print("Ha ocurrido un error al actualizar la entrada")
                         }
                         
-                        
-                        
                     }
-                    .buttonStyle(.bordered)
-                    .padding(.horizontal)
+                }
+                .foregroundStyle(.white)
+                .buttonStyle(.bordered)
+                .padding(.horizontal)
+                Menu{
+                    NavigationLink{
+                        OcrView()
+                    }label:{
+                        Label("Extraer Texto", systemImage: "text.viewfinder")
+                    }
+                    NavigationLink{
+                        QRReadView()
+                    }label:{
+                        Label("Leer QR", systemImage: "qrcode.viewfinder")
+                    }
                     
+                    NavigationLink{
+                        GenerateQRView(texto: "\(self.textFieldTitulo) \n \(self.textFieldEntrada)")
+                    }label:{
+                        Label("Generar QR", systemImage: "qrcode")
+                            
+                    }
+                }label: {
+                    Image(systemName: "ellipsis")
                 }
                 
             }
-            .navigationTitle(entradaForModif == nil ? "Crear nueva Entrada" : "Actualizar Entrada")
-            .navigationBarTitleDisplayMode(.inline)
             .sheet(isPresented: $showSheetAddCateg, content: {
                 AddCategView(updateHome: $updateHome, categoria: self.$selectedCateg)
                     .presentationDetents([.medium])
@@ -181,6 +193,7 @@ struct AddEntradaView: View {
                     self.textFieldEntrada = AESModel().aesGCMDec(strEnc: entrada.entrada ?? "")
                     self.icono = entrada.icono ?? ""
                     self.fav = entrada.isfav
+                    
                     
                 }
             }

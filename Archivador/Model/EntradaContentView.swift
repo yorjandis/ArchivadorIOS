@@ -4,6 +4,7 @@
 //
 //  Created by Yorjandis Garcia on 28/2/24.
 //
+//Visualiza texto en un formato HTML. Opcionalmente se puede dar un tamaño al texto y especificar un caracter separador de linea (por defecto es &&)
 
 import SwiftUI
 import WebKit
@@ -11,9 +12,9 @@ import WebKit
 
 
 struct HTMLView: UIViewRepresentable {
-    var txt: String
-    var fontSize : CGFloat = 60
-    var lineBreak = "&&" //define un caracter como salto de linea intercalado
+    var txt: String //Texto a mostrar
+    var fontSize : CGFloat = 60 //Tamaño de letra
+    var lineBreak = "&&" //define un caracter como salto de linea intercalado (opcional en el texto a mostrar)
     
     
     func makeUIView(context: Context) -> WKWebView {

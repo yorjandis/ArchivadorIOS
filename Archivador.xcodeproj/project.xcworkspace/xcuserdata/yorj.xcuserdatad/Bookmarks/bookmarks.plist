@@ -59,13 +59,13 @@
 					<key>EndingColumnNumber</key>
 					<string>0</string>
 					<key>EndingLineNumber</key>
-					<string>227</string>
+					<string>228</string>
 					<key>StartingColumnNumber</key>
-					<string>108</string>
+					<string>0</string>
 					<key>StartingLineNumber</key>
-					<string>226</string>
+					<string>227</string>
 					<key>Timestamp</key>
-					<string>731482058.7270451</string>
+					<string>731636228.264769</string>
 				</dict>
 				<key>rebasable-url</key>
 				<dict>
@@ -81,12 +81,12 @@
 			<key>text-context</key>
 			<dict>
 				<key>focused</key>
-				<string>}
+				<string>            if image != nil {print("Yorjandis hacer la función para almacenar una imagen en formato cadena")}
 </string>
 				<key>leading</key>
 				<string>            if title != nil { entrada!.title = AESModel().aesGCMEnc(str: title ?? "")}
             if entradaText != nil { entrada!.entrada = AESModel().aesGCMEnc(str: entradaText ?? "")}
-            if image != nil {print("Yorjandis hacer la función para almacenar una imagen en formato cadena")</string>
+</string>
 				<key>trailing</key>
 				<string>            if isfav != nil {entrada!.isfav = isfav ?? false}
             if icono != nil {entrada!.icono = icono ?? "documents"}
