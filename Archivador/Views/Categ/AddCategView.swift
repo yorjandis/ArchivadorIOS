@@ -87,7 +87,6 @@ struct AddCategView: View {
                     Button(self.categoriaForModif == nil ? "Guardar" : "Actualizar"){
                         
                         if self.categoriaForModif == nil { //Guardar la nueva categoría
-                            if textFieldCateg.isEmpty {return}
                             if let categ =  CRUDModel().addCategoria(categoria: self.textFieldCateg, isfav: self.fav, nota: self.textFieldNota, icono: self.icono){
                                 //Actualizar home() sale
                                 self.categoria = categ //Devolviendo la categoria
@@ -111,6 +110,7 @@ struct AddCategView: View {
                     }
                     .buttonStyle(.bordered)
                     .foregroundStyle(.primary)
+                    .disabled(self.textFieldCateg.isEmpty ? true : false)
                 }
                 .padding(.bottom, 50)
             }

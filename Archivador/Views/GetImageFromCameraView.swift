@@ -9,12 +9,26 @@ import SwiftUI
 import PhotosUI
 
 struct GetImageFromCameraView: View {
+    @Environment(\.dismiss) var dismiss
     @Binding var image : UIImage? //Aqui se devuelve la imagen tomada
     @State private var showCamera = false
-    @State private var selectedImage: UIImage?
+    @State private var selectedImage: UIImage? = UIImage(systemName: "photo")!
 
     var body: some View {
         VStack {
+            Text("Tap en la imagen para volver").foregroundStyle(.orange).font(.footnote)
+            Image(uiImage: (self.selectedImage)!)
+                .resizable()
+                .scaledToFill()
+                .frame(width: 200, height: 200)
+                .clipShape(RoundedRectangle(cornerRadius: 10))
+                .padding(.bottom, 20)
+                .shadow(color: .white,  radius: 3)
+                .onTapGesture {
+                    dismiss()
+                }
+            
+            
             Button("Abrir la Cámara...") {
                 self.showCamera.toggle()
             }

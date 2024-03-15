@@ -3,7 +3,7 @@
 //  Archivador
 //
 //  Created by Yorjandis Garcia on 8/3/24.
-//
+//Para capturar una imagen desde la cámara
 
 import SwiftUI
 

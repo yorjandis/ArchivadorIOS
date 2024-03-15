@@ -3,14 +3,14 @@
 //  Archivador
 //
 //  Created by Yorjandis Garcia on 9/3/24.
-//
+//Permite hacer OCR sobre una imagen
 
 import SwiftUI
 
 
 struct OcrView: View {
     @Environment(\.dismiss) var dimiss
-    @State private var imageSelected : UIImage? = nil
+    @State var imageSelected : UIImage? = nil
     @State private var texto : String = ""
     
     
@@ -52,6 +52,11 @@ struct OcrView: View {
             .foregroundColor(.white)
             .navigationTitle("OCR")
             .navigationBarTitleDisplayMode(.inline)
+            .task {
+                if let img = self.imageSelected {
+                    self.texto = ImageToStringModel().ocr(image: img)
+                }
+            }
         }
     }
 }

@@ -47,16 +47,16 @@ struct CRUDModel {
     
     ///Adiciona una nueva entrada
     /// - Returns - Devuelve true si la operación ha sido exitosa
-    func AddEntrada(title : String, entrada : String, categoria : Categorias?, image : String, isfav : Bool = true, icono:String = "")->Entrada?{
+    func AddEntrada(title : String, entrada : String, categoria : Categorias?, imageData : Data?, isfav : Bool = true, icono:String = "")->Entrada?{
         let row : Entrada = Entrada(context: context)
         
-        //Una entrada debe pertenecer a una categoria
+        //Una entrada debe pertenecer a una categoría. La entrada puede perder la categoría adjunta si se elimina dicha categoría
         if let Categoria = categoria {
             row.id = UUID().uuidString
             row.title = AESModel().aesGCMEnc(str: title)
             row.categ = Categoria
             row.entrada = AESModel().aesGCMEnc(str: entrada)
-            row.image =  image//Imagen en formato String64 para guardar
+            if imageData != nil { row.image =  imageData}
             row.isfav = isfav
             row.icono = icono
             
@@ -218,14 +218,15 @@ struct CRUDModel {
     ///Modificar una entrada
     ///Los parámetros que no son nil son actualizados...Pase solamente aquellos parámetros que necesita actualizar
     ///- Returns - true si la operación ha sido exitosa
-    func modifEntrada(entrada: Entrada?, categoria : Categorias?, title : String?, entradaText : String?, image : String?, isfav : Bool?, icono:String?)->Bool{
+    func modifEntrada(entrada: Entrada?, categoria : Categorias?, title : String?, entradaText : String?, imageData : Data? = nil, isfav : Bool? = false, icono:String? = nil)->Bool{
         
         if entrada == nil {return false}
         
+        //Solo actualiza los campos que no son nil
             if categoria != nil { entrada!.categ = categoria} //Si categoria no es nil es que se ha dado una nueva categoría
             if title != nil { entrada!.title = AESModel().aesGCMEnc(str: title ?? "")}
             if entradaText != nil { entrada!.entrada = AESModel().aesGCMEnc(str: entradaText ?? "")}
-            if image != nil {print("Yorjandis hacer la función para almacenar una imagen en formato cadena")}
+            if imageData != nil {entrada!.image = imageData} else {entrada!.image = nil} //Si se da un valor de nil, se escribe este y se anula la imagen
             if isfav != nil {entrada!.isfav = isfav ?? false}
             if icono != nil {entrada!.icono = icono ?? "documents"}
             do{
@@ -234,9 +235,6 @@ struct CRUDModel {
             }catch{
                 return false
             }
-
-        
-        
     }
     
     

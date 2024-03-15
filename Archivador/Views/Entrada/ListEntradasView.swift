@@ -206,6 +206,7 @@ struct EntradaViewItem : View {
     @State private var expandContent = false
     @State private var showConfirmDialogDelete = false
     
+    
     //Devuele la lista de imágines de una entrada como un arreglo
     private var getListOfImages : [UIImage]{
         return []
@@ -213,6 +214,7 @@ struct EntradaViewItem : View {
     
     var body: some View {
         VStack{
+            //icono, titulo
             HStack{
                 //icono
                 VStack{
@@ -249,7 +251,8 @@ struct EntradaViewItem : View {
                                 
                                 ForEach  (CRUDModel().getListOfCateg(), id:\.categoria) { i in
                                     Button{
-                                        if  CRUDModel().modifEntrada(entrada: entrada, categoria: i, title: nil, entradaText: nil, image: nil, isfav: nil, icono: nil){
+                                        let temp = CRUDModel().modifEntrada(entrada: entrada, categoria: i, title: nil, entradaText: nil)
+                                        if temp {
                                             withAnimation {
                                                 self.refresListEntradas.toggle()
                                             }
@@ -277,6 +280,19 @@ struct EntradaViewItem : View {
                 
                 Spacer()
                 
+                //Imagen adjunta. Si existe
+                if let imgData = entrada.image {
+                    if let img = ImageDataModel().DataToUIImage(data: imgData){
+                        NavigationLink{
+                            VisorImagenView(image: img)
+                        }label: {
+                            Image(uiImage: img).imageIcono()
+                        }
+                    }
+                }
+  
+                Spacer()
+                
                 //Menu:
                 VStack{
                     Menu{
@@ -295,7 +311,7 @@ struct EntradaViewItem : View {
                 }
             }.padding(.horizontal, 10)
             
-            //Mostrando el contenido de la entrada
+            //Expansible: Mostrando el contenido de la entrada
             if self.expandContent {
                 HTMLView(txt: AESModel().aesGCMDec(strEnc: entrada.entrada ?? ""))
                     .frame(height: 250)
@@ -313,14 +329,7 @@ struct EntradaViewItem : View {
                         }.padding(.horizontal)
                     }
                 }
-                
-
             }
-            
-
-            
-            
-            
         }
         .confirmationDialog("Eliminar una Entrada", isPresented: $showConfirmDialogDelete) {
             Button("Eliminar entrada", role: .destructive){
@@ -349,10 +358,12 @@ struct EntradaViewItem : View {
         }
         .background(Color("yor"))
         .foregroundStyle(.black)
-        .clipShape(RoundedRectangle(cornerRadius: 18))
+        .clipShape(RoundedRectangle(cornerRadius: 8))
         .padding(.horizontal,10)
     }
 }
+
+
 
 
 

@@ -8,8 +8,7 @@
 import SwiftUI
 
 struct PasswordGenerateView: View {
-    @Binding var pass : String //Aqui se devuelve la contraseña generada
-    @State private var password : String = ""
+    @State private var texto : String = ""
     @State private var length : Int8 = 16
     @State private var showPass = false
     
@@ -20,10 +19,10 @@ struct PasswordGenerateView: View {
             VStack{
                 HStack {
                         ZStack{
-                            Text(self.password)
+                            Text(self.texto)
                                 .opacity(showPass ? 1 : 0)
                                 .frame(maxWidth: .infinity, alignment: .leading)
-                            SecureField("", text: $password)
+                            SecureField("", text: $texto)
                                 .opacity(showPass ? 0 : 1)
                         }
                     Spacer()
@@ -33,15 +32,16 @@ struct PasswordGenerateView: View {
                         Image(systemName: showPass ? "eye.slash.fill"  : "eye.fill")
                     }.padding(.horizontal)
                     Button("Copiar"){
-                        UIPasteboard.general.string = self.password
+                            UIPasteboard.general.string = self.texto
                     }.buttonStyle(BorderedButtonStyle())
                      .background(.cyan)
                      .clipShape(RoundedRectangle(cornerRadius: 20))
+                     .disabled(self.texto.isEmpty ? true : false)
                 }
                 
                 HStack {
                     Button{
-                        self.password =  generatePassword(length: self.length)
+                        self.texto =  generatePassword(length: self.length)
                     }label:{
                         Image(systemName: "arrow.counterclockwise")
                             .frame(width:120, height: 40)
@@ -63,17 +63,13 @@ struct PasswordGenerateView: View {
             .navigationTitle("Generador de contraseñas")
             .navigationBarTitleDisplayMode(.inline)
             .task {
-                self.password = generatePassword(length: self.length)
+                self.texto = generatePassword(length: self.length)
             }
         }
         .preferredColorScheme(.dark)
-    }
-    
-
-    
-    
+    }  
 }
 
 #Preview {
-    PasswordGenerateView(pass: .constant(""))
+    PasswordGenerateView()
 }

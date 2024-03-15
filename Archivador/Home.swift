@@ -176,10 +176,10 @@ struct Home: View {
                                         }
                                     VStack {
                                         Menu{
-                                            Button("Modificar Categoría"){
+                                            Button("Modificar..."){
                                                 self.CategoriaParaModificar = categ
                                             }
-                                            Button("Eliminar Categoría"){
+                                            Button("Eliminar Categoría..."){
                                                 CategoriaParaEliminar = categ
                                                 showConfirmDialogDeleteNota = true
                                             }
@@ -196,7 +196,7 @@ struct Home: View {
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .background(Color("yor"))
                             .foregroundStyle(.black)
-                            .clipShape(RoundedRectangle(cornerRadius: 20))
+                            .clipShape(RoundedRectangle(cornerRadius: 8))
                             .padding(.horizontal,5)
                             
                             

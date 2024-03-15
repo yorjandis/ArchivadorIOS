@@ -134,11 +134,13 @@
 		19941B472B9BD34700CDA9F7 /* GetImageFromGalleryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19941B462B9BD34700CDA9F7 /* GetImageFromGalleryView.swift */; };
 		19941B492B9BD6AC00CDA9F7 /* GetImageFromCameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19941B482B9BD6AC00CDA9F7 /* GetImageFromCameraView.swift */; };
 		19941B4B2B9C199000CDA9F7 /* OcrView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19941B4A2B9C199000CDA9F7 /* OcrView.swift */; };
+		19C4EFAC2BA49AC50041030C /* VisorImagenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C4EFAB2BA49AC50041030C /* VisorImagenView.swift */; };
 		19EC67032B9FBB4100E5DE92 /* PasswordGenerateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19EC67022B9FBB4100E5DE92 /* PasswordGenerateView.swift */; };
 		19EC67062B9FCA1100E5DE92 /* GenerateQRView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19EC67052B9FCA1100E5DE92 /* GenerateQRView.swift */; };
 		19EC67082B9FCF2500E5DE92 /* QRModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19EC67072B9FCF2500E5DE92 /* QRModel.swift */; };
 		19EC670B2B9FDC9400E5DE92 /* QRReadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19EC670A2B9FDC9400E5DE92 /* QRReadView.swift */; };
 		19EC67152BA3C18B00E5DE92 /* GeneratePassUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19EC67142BA3C18B00E5DE92 /* GeneratePassUtils.swift */; };
+		19EC67172BA4356800E5DE92 /* ImageDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19EC67162BA4356800E5DE92 /* ImageDataModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -295,11 +297,13 @@
 		19941B462B9BD34700CDA9F7 /* GetImageFromGalleryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetImageFromGalleryView.swift; sourceTree = "<group>"; };
 		19941B482B9BD6AC00CDA9F7 /* GetImageFromCameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetImageFromCameraView.swift; sourceTree = "<group>"; };
 		19941B4A2B9C199000CDA9F7 /* OcrView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OcrView.swift; sourceTree = "<group>"; };
+		19C4EFAB2BA49AC50041030C /* VisorImagenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisorImagenView.swift; sourceTree = "<group>"; };
 		19EC67022B9FBB4100E5DE92 /* PasswordGenerateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordGenerateView.swift; sourceTree = "<group>"; };
 		19EC67052B9FCA1100E5DE92 /* GenerateQRView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenerateQRView.swift; sourceTree = "<group>"; };
 		19EC67072B9FCF2500E5DE92 /* QRModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRModel.swift; sourceTree = "<group>"; };
 		19EC670A2B9FDC9400E5DE92 /* QRReadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRReadView.swift; sourceTree = "<group>"; };
 		19EC67142BA3C18B00E5DE92 /* GeneratePassUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneratePassUtils.swift; sourceTree = "<group>"; };
+		19EC67162BA4356800E5DE92 /* ImageDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDataModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -488,6 +492,7 @@
 				19941B432B9BC34500CDA9F7 /* Image */,
 				1931B18E2B86E41100A51EF6 /* CoreData */,
 				1931B1902B86E46B00A51EF6 /* Utils.swift */,
+				19EC67162BA4356800E5DE92 /* ImageDataModel.swift */,
 				19086B6C2B8FEE0C00446F4C /* EntradaContentView.swift */,
 				19EC67142BA3C18B00E5DE92 /* GeneratePassUtils.swift */,
 			);
@@ -551,6 +556,7 @@
 				19941B462B9BD34700CDA9F7 /* GetImageFromGalleryView.swift */,
 				19941B482B9BD6AC00CDA9F7 /* GetImageFromCameraView.swift */,
 				19EC67022B9FBB4100E5DE92 /* PasswordGenerateView.swift */,
+				19C4EFAB2BA49AC50041030C /* VisorImagenView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -828,6 +834,7 @@
 				19EC670B2B9FDC9400E5DE92 /* QRReadView.swift in Sources */,
 				19941B452B9BC37400CDA9F7 /* ImageCaptureFromCameraModel.swift in Sources */,
 				1931B1912B86E46B00A51EF6 /* Utils.swift in Sources */,
+				19C4EFAC2BA49AC50041030C /* VisorImagenView.swift in Sources */,
 				1931B1B12B881CC300A51EF6 /* CRUDModel.swift in Sources */,
 				1931B1822B86E16D00A51EF6 /* Persistence.swift in Sources */,
 				1931B1B82B88BBC300A51EF6 /* ListEntradasView.swift in Sources */,
@@ -840,6 +847,7 @@
 				19941B492B9BD6AC00CDA9F7 /* GetImageFromCameraView.swift in Sources */,
 				19EC67032B9FBB4100E5DE92 /* PasswordGenerateView.swift in Sources */,
 				1931B1A92B86E4FA00A51EF6 /* Home.swift in Sources */,
+				19EC67172BA4356800E5DE92 /* ImageDataModel.swift in Sources */,
 				1931B1792B86E16C00A51EF6 /* ArchivadorApp.swift in Sources */,
 				1931B1AC2B87D36100A51EF6 /* AESModel.swift in Sources */,
 				19941B472B9BD34700CDA9F7 /* GetImageFromGalleryView.swift in Sources */,
@@ -1002,6 +1010,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Archivador/Info.plist;
 				INFOPLIST_KEY_NSCameraUsageDescription = "Se necesita acceder a la cámara para tomar una foto";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Se nececita acceso a la galería";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -1035,6 +1044,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Archivador/Info.plist;
 				INFOPLIST_KEY_NSCameraUsageDescription = "Se necesita acceder a la cámara para tomar una foto";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Se nececita acceso a la galería";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

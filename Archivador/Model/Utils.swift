@@ -50,12 +50,17 @@ extension Image {
 }
 
 
+
 extension Image {
-    
     func imageIcono() -> some View {
         self
             .resizable()
-            .scaledToFit()
-            .frame(height: 30)
+            .scaledToFill()
+            .padding(3)
+            .background(.white)
+            .frame(width: 30, height: 30)
+            .clipShape(RoundedRectangle(cornerRadius: 5))
+            
+            .shadow(radius: 5)
     }
 }
