@@ -3,7 +3,7 @@
 //  Archivador
 //
 //  Created by Yorjandis Garcia on 23/2/24.
-//
+//Crea y Modifica una entrada
 
 import SwiftUI
 import CoreData
@@ -20,11 +20,16 @@ struct AddEntradaView: View {
     @State private var textFieldEntrada = ""
     @State private var icono : String = "apple"
     @State private var fav = false
-    @State private var imageSelected : UIImage? = nil //Imagen adjunta opcional
+    
+    @State private var img1 : UIImage? //Imagen adjunta opcional
+    @State private var img2 : UIImage? //Imagen adjunta opcional
+    @State private var img3 : UIImage? //Imagen adjunta opcional
+    @State private var img4 : UIImage? //Imagen adjunta opcional
+    
     @State private var colorText : Color = .primary
     @State private var showSheetAddCateg = false
     @State private var showSheetSelectIcono = false
-
+    
     
     var body: some View {
         NavigationStack {
@@ -42,7 +47,7 @@ struct AddEntradaView: View {
                                         Label {
                                             Text(AESModel().aesGCMDec(strEnc: categ.categoria ?? ""))
                                         } icon: {
-                                                Image(path: categ.icono ?? "tags").imageIcono()
+                                            Image(path: categ.icono ?? "tags").imageIcono()
                                         }
                                         
                                     }
@@ -54,8 +59,8 @@ struct AddEntradaView: View {
                             }label: {
                                 if self.selectedCateg != nil {
                                     Label {
-                                            Text( "\(AESModel().aesGCMDec(strEnc: self.selectedCateg?.categoria ?? ""))...")
-
+                                        Text( "\(AESModel().aesGCMDec(strEnc: self.selectedCateg?.categoria ?? ""))...")
+                                        
                                     } icon: {
                                         Image(path: self.selectedCateg?.icono ?? "tags").imageIcono()
                                     }
@@ -74,15 +79,15 @@ struct AddEntradaView: View {
                             
                         }
                         Spacer()
-
+                        
                         
                     }
                 }
                 .task {
                     self.listCateg = CRUDModel().getListOfCateg()
                 }
-
-                    
+                
+                
                 //Título, icono y favorito
                 VStack {
                     HStack(spacing: 10){
@@ -95,7 +100,7 @@ struct AddEntradaView: View {
                         Toggle("Favorito", isOn: $fav).frame(maxWidth: 120)
                     }.padding(.horizontal, 5)
                 }
-
+                
                 
                 //Texto de la entrada
                 VStack{
@@ -108,61 +113,222 @@ struct AddEntradaView: View {
                 HStack{
                     
                     Menu{
-                        if let img = self.imageSelected {
+                        if let img = self.img1 {
                             NavigationLink("Mostrar..."){
                                 VisorImagenView(image: img)
                             }
                         }
                         NavigationLink("Cargar De Galería..."){
-                            GetImageFromGalleryView(image: self.$imageSelected)
+                            GetImageFromGalleryView(image: self.$img1)
                         }
                         NavigationLink("Cargar De Cámara..."){
-                            GetImageFromCameraView(image: self.$imageSelected)
+                            GetImageFromCameraView(image: self.$img1)
                         }
                         
-                        if let entrada = self.entradaForModif{ //Si estamos modificando la entrada
-                                Button("Recuperar imagen guardada"){
-                                    self.imageSelected = ImageDataModel().DataToUIImage(data: entrada.image ?? Data(count: 0))
-                                }
-                       }
+                        
                         //Permite hacer ocr sobre la imagen
-                        if let img = self.imageSelected {
+                        if let img = self.img1 {
                             NavigationLink("Entraer Texto..."){
                                 OcrView(imageSelected: img)
                             }
                         }
                         
                         //Permitir almacenar la imagen en la galeria
-                        if let img = self.imageSelected {
+                        if let img = self.img1 {
                             ShareLink(item:Image(uiImage: img), preview: SharePreview("Archivador", image: Image(uiImage: img)))
                         }
                         
                         //Guardar en galeria:
-                        if let img = self.imageSelected {
+                        if let img = self.img1 {
+                            Button("Guardar en Galeria"){
+                                UIImageWriteToSavedPhotosAlbum(img, nil, nil, nil)
+                            }
+                        }
+                        if self.img1 != nil {
+                            Button{
+                                self.img1 = nil
+                            }label:{
+                                Text("Eliminar Imagen").foregroundStyle(.red)
+                            }
+                        }
+                        
+                        
+                    }label: {
+                        Image(uiImage: (self.img1 != nil ? self.img1 : UIImage(systemName: "photo")!) ?? UIImage(systemName: "photo")! )
+                            .resizable()
+                            .scaledToFill()
+                            .frame(width: 50, height: 50)
+                            .clipShape(RoundedRectangle(cornerRadius: 10))
+                            .shadow(color: .white, radius: 2)
+                            .padding(.horizontal)
+                    }
+                    
+                    //-----------
+                    
+                    Menu{
+                        if let img = self.img2 {
+                            NavigationLink("Mostrar..."){
+                                VisorImagenView(image: img)
+                            }
+                        }
+                        NavigationLink("Cargar De Galería..."){
+                            GetImageFromGalleryView(image: self.$img2)
+                        }
+                        NavigationLink("Cargar De Cámara..."){
+                            GetImageFromCameraView(image: self.$img2)
+                        }
+                        
+                        
+                        //Permite hacer ocr sobre la imagen
+                        if let img = self.img2 {
+                            NavigationLink("Entraer Texto..."){
+                                OcrView(imageSelected: img)
+                            }
+                        }
+                        
+                        //Permitir almacenar la imagen en la galeria
+                        if let img = self.img2 {
+                            ShareLink(item:Image(uiImage: img), preview: SharePreview("Archivador", image: Image(uiImage: img)))
+                        }
+                        
+                        //Guardar en galeria:
+                        if let img = self.img2 {
                             Button("Guardar en Galeria"){
                                 UIImageWriteToSavedPhotosAlbum(img, nil, nil, nil)
                             }
                         }
                         
-                        Button{
-                            self.imageSelected = nil
-                        }label:{
-                            Text("Eliminar Imagen").foregroundStyle(.red)
+                        if self.img2 != nil {
+                            Button{
+                                self.img2 = nil
+                            }label:{
+                                Text("Eliminar Imagen").foregroundStyle(.red)
+                            }
                         }
                         
                     }label: {
-                        Image(uiImage: (self.imageSelected != nil ? self.imageSelected : UIImage(systemName: "photo")!) ?? UIImage(systemName: "photo")! )
+                        Image(uiImage: (self.img2 != nil ? self.img2 : UIImage(systemName: "photo")!) ?? UIImage(systemName: "photo")! )
                             .resizable()
                             .scaledToFill()
-                            .frame(width: 80, height: 80)
+                            .frame(width: 50, height: 50)
                             .clipShape(RoundedRectangle(cornerRadius: 10))
                             .shadow(color: .white, radius: 2)
                             .padding(.horizontal)
                     }
+                    
+                    //-------------
+                    
+                    Menu{
+                        if let img = self.img3 {
+                            NavigationLink("Mostrar..."){
+                                VisorImagenView(image: img)
+                            }
+                        }
+                        NavigationLink("Cargar De Galería..."){
+                            GetImageFromGalleryView(image: self.$img3)
+                        }
+                        NavigationLink("Cargar De Cámara..."){
+                            GetImageFromCameraView(image: self.$img3)
+                        }
+                        
+                        
+                        //Permite hacer ocr sobre la imagen
+                        if let img = self.img3 {
+                            NavigationLink("Entraer Texto..."){
+                                OcrView(imageSelected: img)
+                            }
+                        }
+                        
+                        //Permitir almacenar la imagen en la galeria
+                        if let img = self.img3 {
+                            ShareLink(item:Image(uiImage: img), preview: SharePreview("Archivador", image: Image(uiImage: img)))
+                        }
+                        
+                        //Guardar en galeria:
+                        if let img = self.img3 {
+                            Button("Guardar en Galeria"){
+                                UIImageWriteToSavedPhotosAlbum(img, nil, nil, nil)
+                            }
+                        }
+                        
+                        if self.img3 != nil {
+                            Button{
+                                self.img3 = nil
+                            }label:{
+                                Text("Eliminar Imagen").foregroundStyle(.red)
+                            }
+                        }
+                        
+                    }label: {
+                        Image(uiImage: (self.img3 != nil ? self.img3 : UIImage(systemName: "photo")!) ?? UIImage(systemName: "photo")! )
+                            .resizable()
+                            .scaledToFill()
+                            .frame(width: 50, height: 50)
+                            .clipShape(RoundedRectangle(cornerRadius: 10))
+                            .shadow(color: .white, radius: 2)
+                            .padding(.horizontal)
+                    }
+                    
+                    //-------------
+                    
+                    Menu{
+                        if let img = self.img4 {
+                            NavigationLink("Mostrar..."){
+                                VisorImagenView(image: img)
+                            }
+                        }
+                        NavigationLink("Cargar De Galería..."){
+                            GetImageFromGalleryView(image: self.$img4)
+                        }
+                        NavigationLink("Cargar De Cámara..."){
+                            GetImageFromCameraView(image: self.$img4)
+                        }
+                        
+                        
+                        //Permite hacer ocr sobre la imagen
+                        if let img = self.img4 {
+                            NavigationLink("Entraer Texto..."){
+                                OcrView(imageSelected: img)
+                            }
+                        }
+                        
+                        //Permitir almacenar la imagen en la galeria
+                        if let img = self.img4 {
+                            ShareLink(item:Image(uiImage: img), preview: SharePreview("Archivador", image: Image(uiImage: img)))
+                        }
+                        
+                        //Guardar en galeria:
+                        if let img = self.img4 {
+                            Button("Guardar en Galeria"){
+                                UIImageWriteToSavedPhotosAlbum(img, nil, nil, nil)
+                            }
+                        }
+                        
+                        if self.img4 != nil {
+                            Button{
+                                self.img4 = nil
+                            }label:{
+                                Text("Eliminar Imagen").foregroundStyle(.red)
+                            }
+                        }
+                        
+                    }label: {
+                        Image(uiImage: (self.img4 != nil ? self.img4 : UIImage(systemName: "photo")!) ?? UIImage(systemName: "photo")! )
+                            .resizable()
+                            .scaledToFill()
+                            .frame(width: 50, height: 50)
+                            .clipShape(RoundedRectangle(cornerRadius: 10))
+                            .shadow(color: .white, radius: 2)
+                            .padding(.horizontal)
+                    }
+                    
+                    //------- fin de imagen Adjunta
+                    
+                    
                     Spacer()
                 }
                 
-
+                
                 Spacer()
                 
             }
@@ -170,7 +336,6 @@ struct AddEntradaView: View {
             .navigationTitle(entradaForModif == nil ? "Crear nueva Entrada" : "Actualizar Entrada")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar{
-                
                 ToolbarItem(placement: .topBarTrailing){
                     Menu{
                         NavigationLink{
@@ -195,6 +360,7 @@ struct AddEntradaView: View {
                     }
                 }
                 
+                //Botón Adicionar Entrada / Actualizar Entrada
                 ToolbarItem(placement: .bottomBar) {
                     Button(entradaForModif == nil ? "Guardar" : "Actualizar"){
                         if entradaForModif == nil { //Guardar...Crear nueva entrada
@@ -202,7 +368,7 @@ struct AddEntradaView: View {
                                 if CRUDModel().AddEntrada(title: textFieldTitulo,
                                                           entrada: textFieldEntrada,
                                                           categoria: categ,
-                                                          imageData: ImageDataModel().UIIMageToData(image: self.imageSelected),
+                                                          imageData: CRUDModel().GenerateImageDataArray(img1: self.img1, img2: self.img2, img3: self.img3, img4: self.img4),
                                                           isfav: self.fav,
                                                           icono: self.icono) != nil{
                                     self.updateHome += 1 //Actualizando home()
@@ -217,7 +383,7 @@ struct AddEntradaView: View {
                                                          categoria: self.selectedCateg,
                                                          title: self.textFieldTitulo,
                                                          entradaText: self.textFieldEntrada,
-                                                         imageData: ImageDataModel().UIIMageToData(image: self.imageSelected),
+                                                         imageData: CRUDModel().GenerateImageDataArray(img1: self.img1, img2: self.img2, img3: self.img3, img4: self.img4),
                                                          isfav: self.fav,
                                                          icono: self.icono){
                                 
@@ -258,25 +424,31 @@ struct AddEntradaView: View {
                     self.textFieldEntrada = AESModel().aesGCMDec(strEnc: entrada.entrada ?? "")
                     self.icono = entrada.icono ?? ""
                     self.fav = entrada.isfav
-                    //imagen adjunta:
-                    if self.imageSelected == nil {
-                        self.imageSelected = ImageDataModel().DataToUIImage(data: entrada.image ?? Data(count: 0))
+                    //Cargar el listado de imagenes adjunta
+                    let array = CRUDModel().getListImage(entrada: entrada)
+                    if !array.isEmpty {
+                        for i in 0...array.count-1{
+                            if i == 0 {
+                                if self.img1 == nil {self.img1 = array[0] }
+                            }
+                            if i == 1 {
+                                if self.img2 == nil {self.img2 = array[1] }
+                            }
+                            if i == 2 {
+                                if self.img3 == nil {self.img3 = array[2] }
+                            }
+                            if i == 3 {
+                                if self.img4 == nil {self.img4 = array[3] }
+                            }
+                        }
                     }
-                    
                 }
-            }
-            .onChange(of: self.imageSelected) { oldValue, newValue in
-                print("Ha cambiado la imagen")
-            }
-            
-        }.preferredColorScheme(.dark)
+                
+            }.preferredColorScheme(.dark)
+        } 
     }
     
-  
-    
 }
-
-
 
 
 

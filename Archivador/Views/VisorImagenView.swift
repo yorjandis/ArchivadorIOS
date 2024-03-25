@@ -22,9 +22,9 @@ struct VisorImagenView : View {
             GeometryReader { geometry in // here you'll have size and frame
                 Image(uiImage: self.image)
                     .resizable()
-                    .edgesIgnoringSafeArea(.all)
-                    .aspectRatio(contentMode: .fit)
-                    .offset(x: self.currentOffset.width, y: self.currentOffset.height)
+                    //.edgesIgnoringSafeArea(.all)
+                    .aspectRatio(contentMode: .fill)
+                    .offset(x: self.currentOffset.width, y: self.currentOffset.height + 20)
                     .scaleEffect(max(self.currentScale, 1.0)) // the second question
                     .gesture(DragGesture()
                         .onChanged { value in

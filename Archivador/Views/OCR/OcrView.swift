@@ -20,9 +20,14 @@ struct OcrView: View {
             VStack{
                 //Obtener una imagen
                 HStack(spacing: 30){
+                    
+                    NavigationLink("Galería..."){
                         GetImageFromGalleryView(image: $imageSelected)
-    
-                        GetImageFromCameraView(image: $imageSelected ) 
+                    }.buttonStyle(BorderedProminentButtonStyle()).foregroundColor(.black)
+                    
+                    NavigationLink("Cámara..."){
+                        GetImageFromCameraView(image: $imageSelected )
+                    }.buttonStyle(BorderedProminentButtonStyle()).foregroundColor(.black)
                 }
                 
                 //Visualizar el texto leido

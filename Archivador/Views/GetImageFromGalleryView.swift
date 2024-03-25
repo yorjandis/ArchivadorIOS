@@ -36,10 +36,11 @@ struct GetImageFromGalleryView: View {
                     Task {
                         if let data = try? await selectedItem?.loadTransferable(type: Data.self) {
                             let img = UIImage(data: data)!
+                            self.image = img
                             self.imageSlected = img
-                            image = img
+                            
                         }else{
-                            print("Failed to load the image. Sale y no devuelve nada")
+                            print("Error al cargar la imagen. Sale y no devuelve nada")
                         }
                     }
                 }

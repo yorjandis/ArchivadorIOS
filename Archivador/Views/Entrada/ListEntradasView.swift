@@ -18,9 +18,10 @@ struct ListEntradasView: View {
     @State var listCategorias : [Categorias] = []
     @State var listEntradas : [Entrada] = []
     
-    @State  var refresListEntradas = false //Actualiza el listado de entradas
+    @State  var refresListEntradas = false //Ordena Actualizar el listado de entradas
     
-    
+    @State  private var UseFilter = false //uso de las funciones del filtro
+    @State private var  typeFilterr : typeFilter = .defaultt
     
     @State private var showSheetModifEntrada = false //Permite modificar una entrada
     @State private var showSheetAddEntrada = false //Permite crear una nueva entrada
@@ -30,25 +31,41 @@ struct ListEntradasView: View {
     @FocusState var focus : Bool
     
    
-    
+    //Obtener/Actualizar listado
      var filtered : [Entrada]{
-         if let categ = self.categoria { //Si se ha dado una categoria
-             if textFielSearch.isEmpty {return CRUDModel().getListOfEntradas(categoria: categ) }
-             return listEntradas.filter{AESModel().aesGCMDec(strEnc: $0.title ?? "").localizedStandardContains(textFielSearch) }
+         if UseFilter { //Funciones del filtro
+             switch self.typeFilterr {
+             case .defaultt:
+                 UseFilter = false //Detiene el uso del filtro
+             case .favorito:
+                 return listEntradas.filter{$0.isfav}
+             }
              
-         }else{//Si NO existe una categoria: se Ha listado todas las entradas
-             if textFielSearch.isEmpty {return self.listEntradas}
-             return listEntradas.filter{AESModel().aesGCMDec(strEnc: $0.title ?? "").localizedStandardContains(textFielSearch) }
+         }else{//Listar las entradas
+             if let categ = self.categoria { //Si se ha dado una categoria
+                 if textFielSearch.isEmpty {return CRUDModel().getListOfEntradas(categoria: categ) }
+                 return listEntradas.filter{AESModel().aesGCMDec(strEnc: $0.title ?? "").localizedStandardContains(textFielSearch) }
+                 
+             }else{//Si NO existe una categoria: se Ha listado todas las entradas
+                 if textFielSearch.isEmpty {return self.listEntradas}
+                 return listEntradas.filter{AESModel().aesGCMDec(strEnc: $0.title ?? "").localizedStandardContains(textFielSearch) }
+             }
          }
-
+         
+         
+         return listEntradas
     }
 
+    //Opciones del filtro
+    enum typeFilter{
+        case defaultt, favorito
+    }
     
     var body: some View {
         NavigationStack{
             
             ZStack{
-                
+
                 VStack{
                     //Categorias
                     VStack{
@@ -90,18 +107,7 @@ struct ListEntradasView: View {
                             }
                             .padding(.leading,self.categoria == nil ? 170 : 130)
                             Spacer()
-                            
-                            Button{
-                                showSheetAddEntrada = true
-                            }label: {
-                                Image(systemName: "plus").foregroundColor(.black)
-                                    .frame(width: 40, height: 40)
-                                    .background(.orange)
-                                    .clipShape(RoundedRectangle(cornerRadius: 20))
-                                    .padding(.horizontal)
-                            }
-                        
-                            
+   
                     }
                     .padding(.horizontal, 10)
                     .padding(.top, 8)
@@ -116,10 +122,33 @@ struct ListEntradasView: View {
                     //Searchs
                     if !self.listEntradas.isEmpty {
                         VStack {
-                            TextField("", text: $textFielSearch, prompt: Text(" 🔍 Buscar en entradas"))
-                                .padding(.horizontal)
-                                .focused($focus)
-                                .frame(maxWidth: .infinity)
+                            HStack{
+                                TextField("", text: $textFielSearch, prompt: Text(" 🔍 Buscar en entradas"))
+                                    .padding(.horizontal)
+                                    .focused($focus)
+                                    .frame(maxWidth: .infinity)
+                                Spacer()
+                                //Menu del filtro de entradas
+                                Menu{
+                                    Button("Todas las Entradas"){
+                                        withAnimation {
+                                            self.UseFilter = false
+                                        }
+                                    }
+                                    if !CRUDModel().getListOfEntradaFav().isEmpty { //Solo muestra esta opción si existe categorias favoritas
+                                        Button("Favoritos"){
+                                            withAnimation {
+                                                typeFilterr = .favorito
+                                                self.UseFilter = true
+                                            }
+                                        }
+                                    }
+                                }label: {
+                                    Image(systemName: "line.3.horizontal.decrease")
+                                        .frame(width: 30, height: 30)
+                                }
+                            }.padding(.horizontal)
+                            
                         }
                         .task {
                             self.listEntradas = self.filtered
@@ -127,7 +156,6 @@ struct ListEntradasView: View {
                     }else{
                         Button{
                             showSheetAddEntrada = true
-                           // AddEntradaView(listCateg: $listCategorias, updateHome: $updateHome, refresListEntradas: self.$refresListEntradas)
                         }label: {
                             Label("Adicione una entrada", systemImage: "folder.badge.plus")
                                 .foregroundColor(.black).bold().fontDesign(.serif)
@@ -154,6 +182,19 @@ struct ListEntradasView: View {
                         }else{
                             //Si categoria es nil se listan todas las entradas
                             self.listEntradas = CRUDModel().getAllListOfEntradas()
+                        }
+                    }
+                    
+                    HStack{
+                        Spacer()
+                        Button{
+                            showSheetAddEntrada = true
+                        }label: {
+                            Image(systemName: "plus").foregroundColor(.black)
+                                .frame(width: 40, height: 40)
+                                .background(.orange)
+                                .clipShape(RoundedRectangle(cornerRadius: 20))
+                                .padding(.horizontal)
                         }
                     }
                     
@@ -247,16 +288,15 @@ struct EntradaViewItem : View {
                     }else{ //Si la categoria es nil permitir ponerle una entrada a la categoría
                         HStack{
                             //Text("Sin Categría")
-                            Menu("Asignar Categoria"){
+                            Menu("Asignar Categoría"){
                                 
                                 ForEach  (CRUDModel().getListOfCateg(), id:\.categoria) { i in
                                     Button{
-                                        let temp = CRUDModel().modifEntrada(entrada: entrada, categoria: i, title: nil, entradaText: nil)
+                                        let temp = CRUDModel().CambiarCategoria(entrada: entrada, newCateg: i)
                                         if temp {
                                             withAnimation {
                                                 self.refresListEntradas.toggle()
                                             }
-                                            
                                         }
                                     }label: {
                                         HStack{
@@ -280,16 +320,15 @@ struct EntradaViewItem : View {
                 
                 Spacer()
                 
-                //Imagen adjunta. Si existe
-                if let imgData = entrada.image {
-                    if let img = ImageDataModel().DataToUIImage(data: imgData){
-                        NavigationLink{
-                            VisorImagenView(image: img)
-                        }label: {
-                            Image(uiImage: img).imageIcono()
-                        }
-                    }
+                //Icono de Imagen adjunta. Si existem imagines almacenadas
+                if !CRUDModel().getListImage(entrada: entrada).isEmpty {
+                    Image(systemName: "paperclip")
+                        .font(.system(size: 24))
+                        .foregroundColor(.black)
+                        .shadow(radius: 5)
                 }
+                       
+                
   
                 Spacer()
                 
@@ -300,6 +339,30 @@ struct EntradaViewItem : View {
                         Button("Modificar"){
                             self.entradaForModif = entrada
                         }
+                        Menu("Cambiar Categoría"){
+                            
+                            ForEach  (CRUDModel().getListOfCateg(), id:\.categoria) { i in
+                                Button{
+                                    let temp = CRUDModel().CambiarCategoria(entrada: entrada, newCateg: i)
+                                    
+                                    //CRUDModel().modifEntrada(entrada: entrada, categoria: i, title: nil, entradaText: nil, imageData: nil, isfav: nil, icono: nil)
+                                    if temp {
+                                        withAnimation {
+                                            self.refresListEntradas.toggle()
+                                            self.updateHome += 1 //Actualizando Home
+                                        }
+                                    }
+                                }label: {
+                                    HStack{
+                                        Image(path: i.icono ?? "")
+                                        Text("\(AESModel().aesGCMDec(strEnc: i.categoria ?? ""))")
+                                    }
+                                    
+                                }
+                            }
+                            
+                        }
+                        
                         Button("Eliminar entrada"){
                             self.selectedEntradaForDelete = entrada
                             showConfirmDialogDelete = true
@@ -316,19 +379,18 @@ struct EntradaViewItem : View {
                 HTMLView(txt: AESModel().aesGCMDec(strEnc: entrada.entrada ?? ""))
                     .frame(height: 250)
                 
-                //Mostrando Galeria de imagines de la entrada
-                if self.getListOfImages.count > 0 {
-                    ScrollView(.horizontal){
-                        HStack(spacing: 30) {
-                            ForEach (self.getListOfImages, id: \.self){i in
-                                Image(uiImage: i).imageIcono()
-                                    .onTapGesture {
-                                        //Mostrar la imagen a tamaño completo
-                                    }
-                            }
-                        }.padding(.horizontal)
+                //Listado de imagines adjuntas
+                HStack(spacing: 30){
+                    Spacer()
+                    ForEach(CRUDModel().getListImage(entrada: entrada), id: \.self){i in
+                        NavigationLink{
+                            VisorImagenView(image: i)
+                        }label: {
+                            Image(uiImage: i).imageIcono()
+                        }
                     }
-                }
+                }.padding(.horizontal)
+                
             }
         }
         .confirmationDialog("Eliminar una Entrada", isPresented: $showConfirmDialogDelete) {

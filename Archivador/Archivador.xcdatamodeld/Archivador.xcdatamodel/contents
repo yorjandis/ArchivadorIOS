@@ -12,7 +12,10 @@
         <attribute name="entrada" optional="YES" attributeType="String"/>
         <attribute name="icono" optional="YES" attributeType="String"/>
         <attribute name="id" optional="YES" attributeType="String"/>
-        <attribute name="image" optional="YES" attributeType="Binary"/>
+        <attribute name="image1" optional="YES" attributeType="Binary"/>
+        <attribute name="image2" optional="YES" attributeType="Binary"/>
+        <attribute name="image3" optional="YES" attributeType="Binary"/>
+        <attribute name="image4" optional="YES" attributeType="Binary"/>
         <attribute name="isfav" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="title" optional="YES" attributeType="String"/>
         <relationship name="categ" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Categorias" inverseName="entradas" inverseEntity="Categorias"/>

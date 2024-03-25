@@ -29,6 +29,7 @@ struct ImageDataModel{
     func DataToUIImage(data : Data)->UIImage?{
         //Eliminando el primer byte que se ha añadido para volver hacer legible el contenido
         var temp = data.bytes //Obtiene el arreglo de bytes
+        if temp.count == 0 {return nil}
         temp.removeFirst() //Elimina el primer byte (es un relleno que se puesto para hacer ilegible el contenido)
         let dataTemp = Data(bytes: temp, count: temp.count) //obteniendo el Data legible
         
