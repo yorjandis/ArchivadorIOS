@@ -10,7 +10,7 @@ import CoreData
 
 struct AddCateg_W: View {
     @State private var nombreCateg : String = ""
-    @State private var icono : String = "document" //Pasado como binding
+    @State private var icono : String = "\(Utils.imgCategDef)" //Pasado como binding
     @State private var isfav : Bool = false //Pasado como binding
     private let context = PersistenceController.shared.context
     @State private var showAlert = false

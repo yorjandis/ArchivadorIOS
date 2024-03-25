@@ -312,7 +312,7 @@ struct CRUDModel {
 
         
             if isfav != nil {entrada!.isfav = isfav ?? false}
-            if icono != nil {entrada!.icono = icono ?? "documents"}
+            if icono != nil {entrada!.icono = icono ?? "diario"}
             do{
                 try context.save()
                 return true

@@ -90,14 +90,14 @@ struct ListEntradasView: View {
                                         Label {
                                             Text(AESModel().aesGCMDec(strEnc: categ.categoria ?? ""))
                                         } icon: {
-                                            Image(path: categ.icono ?? "tags").imageIcono()
+                                            Image(path: categ.icono ?? "\(Utils.imgCategDef)").imageIcono()
                                         }
                                         
                                     }
                                 }
                             }label: {
                                 if let categ = self.categoria {
-                                    Image(path: categ.icono ?? "").imageIcono()
+                                    Image(path: categ.icono ?? "\(Utils.imgCategDef)").imageIcono()
                                     Text(AESModel().aesGCMDec(strEnc: self.categoria?.categoria ?? ""))
                                         .frame(height: 40)
                                 }else{
@@ -259,7 +259,7 @@ struct EntradaViewItem : View {
             HStack{
                 //icono
                 VStack{
-                    Image(path: entrada.icono ?? "tags").imageIcono()
+                    Image(path: entrada.icono ?? "\(Utils.imgEntradagDef)").imageIcono()
                 }
                 
                 Spacer()
@@ -300,7 +300,7 @@ struct EntradaViewItem : View {
                                         }
                                     }label: {
                                         HStack{
-                                            Image(path: i.icono ?? "")
+                                            Image(path: i.icono ?? "\(Utils.imgCategDef)")
                                             Text("\(AESModel().aesGCMDec(strEnc: i.categoria ?? ""))")
                                         }
                                         
@@ -327,8 +327,7 @@ struct EntradaViewItem : View {
                         .foregroundColor(.black)
                         .shadow(radius: 5)
                 }
-                       
-                
+
   
                 Spacer()
                 
@@ -354,7 +353,7 @@ struct EntradaViewItem : View {
                                     }
                                 }label: {
                                     HStack{
-                                        Image(path: i.icono ?? "")
+                                        Image(path: i.icono ?? "\(Utils.imgCategDef)")
                                         Text("\(AESModel().aesGCMDec(strEnc: i.categoria ?? ""))")
                                     }
                                     
@@ -389,7 +388,9 @@ struct EntradaViewItem : View {
                             Image(uiImage: i).imageIcono()
                         }
                     }
-                }.padding(.horizontal)
+                }
+                .padding(.horizontal)
+                .padding(.vertical, 5)
                 
             }
         }

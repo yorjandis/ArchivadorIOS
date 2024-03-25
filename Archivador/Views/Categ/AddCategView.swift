@@ -16,7 +16,7 @@ struct AddCategView: View {
     @State var categoriaForModif : Categorias?
     @State private var textFieldCateg = ""
     @State private var textFieldNota = ""
-    @State private var icono : String = "apple"
+    @State private var icono : String = "\(Utils.imgCategDef)"
     @State private var fav = false
     @State private var showSheetIconList = false
     

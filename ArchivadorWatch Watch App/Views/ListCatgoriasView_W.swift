@@ -27,7 +27,7 @@ struct ListCatgoriasView_W: View {
                             ListEntradasViews_W(categoria: categ)
                         }label:{
                             HStack{
-                                Image(path: categ.icono == "" ? "apple"  : categ.icono ?? "apple").imageIcono()
+                                Image(path: categ.icono == "" ? "\(Utils.imgCategDef)"  : categ.icono ?? "\(Utils.imgCategDef)").imageIcono()
                                 Text(AESModel().aesGCMDec(strEnc: categ.categoria ?? ""))
                             }
                         } 

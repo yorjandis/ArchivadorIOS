@@ -12,7 +12,7 @@ struct AddEntrada_W: View {
     @State private var title : String = ""
     @State private var texto : String = ""
     @State var categ : Categorias?
-    @State private var icono : String = "document" //Pasado como binding
+    @State private var icono : String = "\(Utils.imgEntradagDef)" //Pasado como binding
     @State private var isfav : Bool = false //Pasado como binding
     private let context = PersistenceController.shared.context
     @State private var showAlert = false
@@ -51,7 +51,7 @@ struct AddEntrada_W: View {
                                 Text(self.categ == nil ? "Seleccione Categ..." : self.categ?.categoria ?? "")
                             }else{//Si se ha dado una categoría se coloca su icono e imagen:
                                 HStack{
-                                    Image(path: self.categ?.icono ?? "").imageIcono()
+                                    Image(path: self.categ?.icono ?? "\(Utils.imgCategDef)").imageIcono()
                                     Text(AESModel().aesGCMDec(strEnc: self.categ?.categoria ?? ""))
                                 }
                             }
@@ -131,7 +131,7 @@ struct AddEntrada_W: View {
                 VStack{
                     List(self.listateg){ catego in
                         HStack{
-                            Image(path: catego.icono ?? "").imageIcono()
+                            Image(path: catego.icono ?? "\(Utils.imgCategDef)").imageIcono()
                             Button( AESModel().aesGCMDec(strEnc: catego.categoria ?? "")){
                                 self.categ = catego
                                 dismiss()

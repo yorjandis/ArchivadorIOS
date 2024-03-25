@@ -11,6 +11,12 @@ import SwiftUI
 
 struct Utils {
     
+    //Constantes
+    static let imgCategDef = "b_carpeta"
+    static let imgEntradagDef = "d_documento"
+    
+    
+    
     ///Devuelve un arreglo de String con los nombres de ficheros txt dentro del bundle según un prefijo (el prefijo se extrae de parametro de entrada)
     /// - Parameter type : Tipo de contenido a indexar. Se toma de un enum
     func  FilesListToArray()-> [String] {
@@ -43,7 +49,7 @@ extension Image {
         if !path.isEmpty{
             self.init(uiImage: UIImage(named: path)!)
         }else{
-            self.init(systemName: "blank")
+            self.init(path: "\(Utils.imgEntradagDef)")
         }
         
     }
@@ -56,7 +62,7 @@ extension Image {
         self
             .resizable()
             .scaledToFill()
-            .padding(3)
+            .padding(0.5)
             .background(.white)
             .frame(width: 30, height: 30)
             .clipShape(RoundedRectangle(cornerRadius: 5))

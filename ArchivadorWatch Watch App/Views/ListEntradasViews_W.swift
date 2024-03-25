@@ -25,7 +25,7 @@ struct ListEntradasViews_W: View {
                                 entradaContent(entrada: entrada)
                             }label:{
                                 HStack{
-                                    Image(path: entrada.icono == "" ? "document"  : entrada.icono ?? "document").imageIcono()
+                                    Image(path: entrada.icono == "" ? "\(Utils.imgEntradagDef)"  : entrada.icono ?? "\(Utils.imgEntradagDef)").imageIcono()
                                     VStack{
                                         Text(AESModel().aesGCMDec(strEnc: entrada.title ?? ""))
                                         //Texto de la categoria de la entrada O permitir modificarla si es huérfana

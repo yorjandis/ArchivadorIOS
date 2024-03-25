@@ -11,7 +11,7 @@ import CoreData
 struct ModifCategView_W: View {
     @Binding var categoria : Categorias? //esta es la categoria a modificar
     @State private var nombreCateg : String = ""
-    @State private var icono : String = "document" //Pasado como binding
+    @State private var icono : String = "\(Utils.imgEntradagDef)" //Pasado como binding
     @State private var isfav : Bool = false //Pasado como binding
     private let context = PersistenceController.shared.context
     @State private var showAlert = false

@@ -177,8 +177,7 @@ struct Home: View {
                     ForEach(filtered){categ in
                         VStack{
                             HStack{
-                                Image(path: categ.icono == "" ? "apple"  : categ.icono ?? "apple").imageIcono()
-                                
+                                Image(path: categ.icono == "" ? "\(Utils.imgCategDef)"  : categ.icono ?? "\(Utils.imgCategDef)").imageIcono()
                                 
                                 NavigationLink{
                                     ListEntradasView(updateHome: self.$updateHome, categoria: categ)
@@ -187,7 +186,6 @@ struct Home: View {
                                         .frame(maxWidth: .infinity, alignment: .leading)
                                         .contentShape(Rectangle())
                                 }
-                                
                                 Spacer()
                                 Circle()
                                     .fill(.orange)

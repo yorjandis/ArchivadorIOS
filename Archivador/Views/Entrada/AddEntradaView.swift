@@ -18,7 +18,7 @@ struct AddEntradaView: View {
     @State var entradaForModif : Entrada? = nil //Si se da es para modificar la entrada
     @State private var textFieldTitulo = ""
     @State private var textFieldEntrada = ""
-    @State private var icono : String = "apple"
+    @State private var icono : String = "\(Utils.imgEntradagDef)"
     @State private var fav = false
     
     @State private var img1 : UIImage? //Imagen adjunta opcional
@@ -47,7 +47,7 @@ struct AddEntradaView: View {
                                         Label {
                                             Text(AESModel().aesGCMDec(strEnc: categ.categoria ?? ""))
                                         } icon: {
-                                            Image(path: categ.icono ?? "tags").imageIcono()
+                                            Image(path: categ.icono ?? "\(Utils.imgCategDef)").imageIcono()
                                         }
                                         
                                     }
@@ -62,7 +62,7 @@ struct AddEntradaView: View {
                                         Text( "\(AESModel().aesGCMDec(strEnc: self.selectedCateg?.categoria ?? ""))...")
                                         
                                     } icon: {
-                                        Image(path: self.selectedCateg?.icono ?? "tags").imageIcono()
+                                        Image(path: self.selectedCateg?.icono ?? "\(Utils.imgCategDef)").imageIcono()
                                     }
                                     
                                 }else{
@@ -445,7 +445,7 @@ struct AddEntradaView: View {
                 }
                 
             }.preferredColorScheme(.dark)
-        } 
+        }
     }
     
 }
