@@ -12,8 +12,12 @@ import SwiftUI
 struct Utils {
     
     //Constantes
-    static let imgCategDef = "b_carpeta"
-    static let imgEntradagDef = "d_documento"
+    static let imgCategDef = "b_carpeta" //icono por defecto de categoría
+    static let imgEntradagDef = "d_documento" //icono por defecto de entrada
+    
+    static let esPrimeraVez = "esPrimeraVez" //key de userDeafult para saber si es la primera véz que se ejecuta la app
+    
+    
     
     
     
@@ -56,17 +60,35 @@ extension Image {
 }
 
 
-
+//Representa los iconos
 extension Image {
     func imageIcono() -> some View {
         self
             .resizable()
             .scaledToFill()
             .padding(0.5)
-            .background(.white)
-            .frame(width: 30, height: 30)
+            .frame(width: 40, height: 40)
             .clipShape(RoundedRectangle(cornerRadius: 5))
             
             .shadow(radius: 5)
     }
+}
+
+
+//Saber si iCloud esta habilitado
+func isIcloudAvailable()async  ->  Bool{
+    if FileManager.default.ubiquityIdentityToken != nil {
+        return true
+    } else {
+        return false
+    }
+}
+
+
+//Funciones de persistencia en UserDefault
+func writeUserDefault(key : String, value : String){
+    UserDefaults().set(value, forKey: key)
+}
+func readUserDefault(key : String)->String?{
+    return UserDefaults().string(forKey: key)
 }

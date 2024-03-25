@@ -115,7 +115,7 @@ struct AddCategView: View {
                 .padding(.bottom, 50)
             }
             .sheet(isPresented: $showSheetIconList){
-                ListOfImagesView(image: $icono)
+                ListOfImagesView(image: $icono, grupo: .carpeta)
                     .presentationDetents([.medium])
                     .presentationDragIndicator(.hidden)
             }

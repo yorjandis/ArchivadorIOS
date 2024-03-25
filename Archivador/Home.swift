@@ -15,6 +15,7 @@ struct Home: View {
     @State var listCategorias = CRUDModel().getListOfCateg()
     @State var updateHome : Int8 = 0
     @State var HabilitarContenido = false
+    @State var isFirtsTime = false //Para cargar de icloud si esta disponible
     
     @Environment(\.scenePhase) var scenePhase //Para dectectar si la app esta en sengundo plano
     
@@ -25,7 +26,6 @@ struct Home: View {
         NavigationStack {
 
             ZStack {
-                
                 if self.HabilitarContenido {
                     VStack{
                         ListCategHome(listCategoria: $listCategorias, updateHome: $updateHome)
@@ -34,6 +34,42 @@ struct Home: View {
                         Spacer()
                         TabButtonBar(listCategorias: $listCategorias, updateHome: $updateHome)
                     }
+                    .task {
+                        //Comprobando si iCloud esta disponible e intenta cargar el contenido por primera vez
+                        if readUserDefault(key: Utils.esPrimeraVez) == nil { //es la primera vez que se ejecuta la app
+                            if await isIcloudAvailable() { //Si icloud esta disponible....
+                                if self.listCategorias.isEmpty {
+                                    self.listCategorias = await LoadInfoHome() //primer intendo de carga
+                                    print("Cargando info...")
+                                    if self.listCategorias.isEmpty {
+                                        self.listCategorias = await LoadInfoHome() //segundo intendo de carga
+                                        print("Cargando info...")
+                                        if self.listCategorias.isEmpty {
+                                            self.listCategorias = await LoadInfoHome() //tercer intendo de carga
+                                            print("Cargando info...")
+                                            if self.listCategorias.isEmpty {
+                                                self.listCategorias = await LoadInfoHome() //cuarto intendo de carga
+                                                print("Cargando info...")
+                                                //York!!! en este punto se ha intentado 4 veces cargar el contenido
+                                                //El tiempo transcurrido es de 8 segundos. En este punto se presume que no hay registros
+                                                //en iCloud para cargar
+                                                writeUserDefault(key: Utils.esPrimeraVez, value: "1")
+                                            }else{
+                                                writeUserDefault(key: Utils.esPrimeraVez, value: "1")
+                                            }
+                                        }else{
+                                            writeUserDefault(key: Utils.esPrimeraVez, value: "1")
+                                        }
+                                    }else{
+                                        writeUserDefault(key: Utils.esPrimeraVez, value: "1")
+                                    }
+                                }else{
+                                    writeUserDefault(key: Utils.esPrimeraVez, value: "1")
+                                }
+                            }
+                        }
+                    }
+                    
                     Spacer()
                 }else{
                     VStack(spacing: 30){
@@ -56,8 +92,10 @@ struct Home: View {
                             if newPhase == .active {
                                 print("Active")
                             } else if newPhase == .inactive {
+                                self.HabilitarContenido = false
                                 print("Inactive")
                             } else if newPhase == .background {
+                                self.HabilitarContenido = false
                                 print("background")
                             }
                         }
@@ -122,7 +160,6 @@ struct Home: View {
         @State   var ShowSheetModifCateg = false
         
         var filtered : [Categorias] {
-            print("Filtered...")
             if textFielSearch.isEmpty {return listCategoria}
             return listCategoria.filter{AESModel().aesGCMDec(strEnc: $0.categoria ?? "").localizedStandardContains(textFielSearch) }
         }
@@ -172,7 +209,7 @@ struct Home: View {
                     
                 }
                 
-                
+                //Listado de categorías
                 ScrollView{
                     ForEach(filtered){categ in
                         VStack{
@@ -183,6 +220,8 @@ struct Home: View {
                                     ListEntradasView(updateHome: self.$updateHome, categoria: categ)
                                 }label: {
                                     Text(AESModel().aesGCMDec(strEnc: categ.categoria ?? "")).bold()
+                                        .font(.system(size: 20))
+                                        .fontDesign(.serif)
                                         .frame(maxWidth: .infinity, alignment: .leading)
                                         .contentShape(Rectangle())
                                 }
@@ -313,12 +352,22 @@ struct Home: View {
         
         
     }
-  
-
 }
     
     
+//función asincronica que hace una pausa en segundos
+func LoadInfoHome(timeSec : Int8 = 2) async -> [Categorias]  {
+    do {
+        try await Task.sleep(for: .seconds(timeSec))
+        
+        return CRUDModel().getListOfCateg()
+        
+    }catch{
+        print(error.localizedDescription)
+    }
     
+    return []
+}
 
 
     

@@ -274,6 +274,8 @@ struct EntradaViewItem : View {
                         
                     }label:{
                         Text(AESModel().aesGCMDec(strEnc: entrada.title ?? ""))
+                            .font(.system(size: 18))
+                            .fontDesign(.serif)
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .contentShape(Rectangle())
                     }
@@ -283,6 +285,7 @@ struct EntradaViewItem : View {
                     if entrada.categ != nil {
                         Text(AESModel().aesGCMDec(strEnc: entrada.categ?.categoria ?? ""))
                             .font(.footnote)
+                            .bold()
                             .foregroundStyle(.gray)
                             .fontDesign(.serif)
                     }else{ //Si la categoria es nil permitir ponerle una entrada a la categoría
@@ -296,6 +299,7 @@ struct EntradaViewItem : View {
                                         if temp {
                                             withAnimation {
                                                 self.refresListEntradas.toggle()
+                                                self.updateHome += 1
                                             }
                                         }
                                     }label: {
@@ -316,16 +320,22 @@ struct EntradaViewItem : View {
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(.top, 10)
-                .padding(.horizontal, 8)
+                .padding(.horizontal, 2)
                 
                 Spacer()
                 
                 //Icono de Imagen adjunta. Si existem imagines almacenadas
                 if !CRUDModel().getListImage(entrada: entrada).isEmpty {
                     Image(systemName: "paperclip")
-                        .font(.system(size: 24))
+                        .font(.system(size: 15))
                         .foregroundColor(.black)
                         .shadow(radius: 5)
+                        .onTapGesture {
+                            withAnimation {
+                                self.expandContent.toggle()
+                            }
+                           
+                        }
                 }
 
   
@@ -341,23 +351,26 @@ struct EntradaViewItem : View {
                         Menu("Cambiar Categoría"){
                             
                             ForEach  (CRUDModel().getListOfCateg(), id:\.categoria) { i in
-                                Button{
-                                    let temp = CRUDModel().CambiarCategoria(entrada: entrada, newCateg: i)
-                                    
-                                    //CRUDModel().modifEntrada(entrada: entrada, categoria: i, title: nil, entradaText: nil, imageData: nil, isfav: nil, icono: nil)
-                                    if temp {
-                                        withAnimation {
-                                            self.refresListEntradas.toggle()
-                                            self.updateHome += 1 //Actualizando Home
+                                if i.categoria != self.SelectedCategoria?.categoria {
+                                    Button{
+                                        let temp = CRUDModel().CambiarCategoria(entrada: entrada, newCateg: i)
+                                        
+                                        //CRUDModel().modifEntrada(entrada: entrada, categoria: i, title: nil, entradaText: nil, imageData: nil, isfav: nil, icono: nil)
+                                        if temp {
+                                            withAnimation {
+                                                self.refresListEntradas.toggle()
+                                                self.updateHome += 1 //Actualizando Home
+                                            }
                                         }
+                                    }label: {
+                                        HStack{
+                                            Image(path: i.icono ?? "\(Utils.imgCategDef)")
+                                            Text("\(AESModel().aesGCMDec(strEnc: i.categoria ?? ""))")
+                                        }
+                                        
                                     }
-                                }label: {
-                                    HStack{
-                                        Image(path: i.icono ?? "\(Utils.imgCategDef)")
-                                        Text("\(AESModel().aesGCMDec(strEnc: i.categoria ?? ""))")
-                                    }
-                                    
                                 }
+                                
                             }
                             
                         }
