@@ -319,6 +319,10 @@ struct Home: View {
                 Spacer()
                 
                 Menu{
+                    Button("Guardar Contraseña"){_ = KeychainManager().addPass(pass: "Reptilo02")}
+                    Button("Obtener Contraseña"){_ = KeychainManager().getPass()}
+                    Button("Actualizar La contraseña"){_ = KeychainManager().modifPass(oldPass: "Reptilo02", newPass: "Caiman2024")}
+                    Button("Eliminar la contraseña"){_ = KeychainManager().deletePass()}
                     Button("Lista de Entradas"){showSheetListEntradas = true }
                     Button("Nueva Entrada..."){showSheetAddEntrada = true}
                     Button("Nueva Categoría..."){showSheetAddCateg = true}
